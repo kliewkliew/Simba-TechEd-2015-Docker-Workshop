@@ -1,30 +1,26 @@
-FROM        ubuntu:14.04.1
-MAINTAINER  Love Nyberg "love@bloglovin.com"
-ENV REFRESHED_AT 2014-10-18
+FROM        centos:6.6
 
-# Add 10gen official apt source to the sources list
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
-RUN echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list
+MAINTAINER  Kevin Liew <kevinl@simba.com>
 
-# Install MongoDB
-RUN apt-get update -qq && \
-  apt-get upgrade -yqq && \
-  apt-get -yqq install mongodb-org && \
-  apt-get -yqq clean
 
-# Create the MongoDB data directory
-RUN mkdir -p /data/db
+ENV MONGO_VERSION 3.0.5
 
-EXPOSE 27017
+ENV MONGO_HOME /usr/local/mongodb
 
-ADD js/initiate.js /initiate.js
-ADD js/setupReplicaSet1.js /setupReplicaSet1.js
-ADD js/setupReplicaSet2.js /setupReplicaSet2.js
-ADD js/setupReplicaSet3.js /setupReplicaSet3.js
-ADD js/addShard.js /addShard.js
-ADD js/addDBs.js /addDBs.js
-ADD js/enabelSharding.js /enabelSharding.js
-ADD js/addIndexes.js /addIndexes.js
-ADD start.sh /start.sh
+ENV PATH $MONGO_HOME/mongodb-linux-x86_64-$MONGO_VERSION/bin:$PATH
 
-CMD ["/start.sh"]
+
+# Provision the MongoDB tar file (archives are automatically extracted by Docker, so don't run tar on the image)
+ADD provision/tmp/mongodb-linux-x86_64-$MONGO_VERSION.tgz /tmp/
+
+# Provision configuration files
+ADD provision/etc /etc
+
+ADD js .
+
+# Install MongoDB for 64-bit Linux
+RUN mkdir -p $MONGO_HOME && \
+    cp -R -n /tmp/mongodb-linux-x86_64-$MONGO_VERSION/ $MONGO_HOME && \
+    mkdir -p /data/db
+
+EXPOSE 27017 27018 27019

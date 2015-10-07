@@ -1,54 +1,161 @@
 #!/bin/bash
 
-# Docker interface ip
-DOCKERIP="10.1.42.1"
-LOCALPATH="/home/vagrant/docker"
+# Persistent storage of container database files on the host
+LOCALPATH="/mongodb"
 
-# Clean up
-containers=( skydns skydock mongos1r1 mongos1r2 mongos2r1 mongos2r2 mongos3r1 mongos3r2 configservers1 configservers2 configservers3 mongos1 )
+SLEEPTIME=7
+
+# If you change these, you also need to modify js/addShard.js
+IMAGE="mongodb"
+ENVIRONMENT="dev"
+DOMAIN="docker"
+
+
+SKYDNS="172.17.42.1"
+
+echo "Clean up"
+
+containers=( skydns skydock shard1node1 shard1node2 shard2node1 shard2node2 shard3node1 shard3node2 configserver1 configserver2 configserver3 mongos1 )
+
 for c in ${containers[@]}; do
 	docker kill ${c} 	> /dev/null 2>&1
+
 	docker rm ${c} 		> /dev/null 2>&1
 done
 
-# Uncomment to build mongo image yourself otherwise it will download from docker index.
-#docker build -t jacksoncage/mongo ${LOCALPATH}/mongo > /dev/null 2>&1
 
-# Setup skydns/skydock
-docker run -d -p ${DOCKERIP}:53:53/udp --name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain docker
-docker run -d -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/skydock -ttl 30 -environment dev -s /docker.sock -domain docker -name skydns
+echo "Setup skydns/skydock"
+
+docker run -d -p ${SKYDNS}:53:53/udp --name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain ${DOMAIN}
+
+docker run -d -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/skydock -ttl 30 -environment ${ENVIRONMENT} -s /docker.sock -domain ${DOMAIN} -name skydns
+
+
 
 for (( i = 1; i < 4; i++ )); do
 	# Setup local db storage if not exist
+
 	if [ ! -d "${LOCALPATH}/db/${i}-1" ]; then
+
 		mkdir -p ${LOCALPATH}/mongodata/${i}-1
+
 		mkdir -p ${LOCALPATH}/mongodata/${i}-2
+
 		mkdir -p ${LOCALPATH}/mongodata/${i}-cfg
+
 	fi
-	# Create mongd servers
-	docker run --dns ${DOCKERIP} --name mongos${i}r1 -P -i -d -v ${LOCALPATH}/mongodata/${i}-1:/data/db -e OPTIONS="d --replSet set${i} --dbpath /data/db --notablescan --noprealloc --smallfiles" jacksoncage/mongo
-	docker run --dns ${DOCKERIP} --name mongos${i}r2 -P -i -d -v ${LOCALPATH}/mongodata/${i}-2:/data/db -e OPTIONS="d --replSet set${i} --dbpath /data/db --notablescan --noprealloc --smallfiles" jacksoncage/mongo
-	sleep 20 # Wait for mongo to start
-	# Setup replica set
-	docker run --dns ${DOCKERIP} -P -i -t -e OPTIONS=" ${DOCKERIP}:$(docker port mongos${i}r1 27017|cut -d ":" -f2) /initiate.js" jacksoncage/mongo
-	sleep 30 # Waiting for set to be initiated
-	docker run --dns ${DOCKERIP} -P -i -t -e OPTIONS=" ${DOCKERIP}:$(docker port mongos${i}r1 27017|cut -d ":" -f2) /setupReplicaSet${i}.js" jacksoncage/mongo
-	# Create configserver
-	docker run --dns ${DOCKERIP} --name configservers${i} -P -i -d -v ${LOCALPATH}/mongodata/${i}-cfg:/data/db -e OPTIONS="d --configsvr --dbpath /data/db --notablescan --noprealloc --smallfiles --port 27017" jacksoncage/mongo
+
+echo "Create mongod servers"
+
+	docker run -P -i -d \
+			-v ${LOCALPATH}/mongodata/${i}-1:/data/db \
+			--dns ${SKYDNS} \
+			--name shard${i}node1 \
+			-h shard${i}node1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
+			${IMAGE} \
+		mongod --replSet set${i} \
+			--dbpath /data/db \
+			--config /etc/mongod.conf \
+			--notablescan
+
+	docker run -P -i -d \
+			-v ${LOCALPATH}/mongodata/${i}-2:/data/db \
+			--dns ${SKYDNS} \
+			--name shard${i}node2 \
+			-h shard${i}node2.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
+			${IMAGE} \
+		mongod --replSet set${i} \
+			--dbpath /data/db \
+			--config /etc/mongod.conf \
+			--notablescan
+
+	sleep $SLEEPTIME # Wait for mongodb to start
+
+echo "Setup replica set"
+
+	docker run -P -i -t \
+			--dns ${SKYDNS} \
+			${IMAGE} \
+		mongo --host shard${i}node1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
+			--port 27017 \
+			/initiate.js
+
+	sleep 10 # Waiting for set to be initiated
+
+	docker run -P -i -t \
+			--dns ${SKYDNS} \
+			${IMAGE} \
+		mongo --host shard${i}node1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
+			--port 27017 \
+			/setupReplicaSet${i}.js
+
+echo "Create configserver"
+
+	docker run -P -i -d \
+			-v ${LOCALPATH}/mongodata/${i}-cfg:/data/db \
+			--dns ${SKYDNS} \
+			--name configserver${i} \
+			-h configserver${i}.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
+			${IMAGE} \
+		mongod --dbpath /data/db \
+			--config /etc/mongoc.conf \
+			--notablescan \
+			--configsvr # port 27019
 done
 
-# Setup and configure mongo router
-docker run --dns ${DOCKERIP} --name mongos1 -P -i -d -e OPTIONS="s --configdb configservers1.mongo.dev.docker:27017,configservers2.mongo.dev.docker:27017,configservers3.mongo.dev.docker:27017 --port 27017" jacksoncage/mongo
-sleep 15 # Wait for mongo to start
-docker run --dns ${DOCKERIP} -P -i -t -e OPTIONS=" ${DOCKERIP}:$(docker port mongos1 27017|cut -d ":" -f2) /addShard.js" jacksoncage/mongo
-sleep 15 # Wait for sharding to be enabled
-docker run --dns ${DOCKERIP} -P -i -t -e OPTIONS=" ${DOCKERIP}:$(docker port mongos1 27017|cut -d ":" -f2) /addDBs.js" jacksoncage/mongo
-sleep 15 # Wait for db to be created
-docker run --dns ${DOCKERIP} -P -i -t -e OPTIONS=" ${DOCKERIP}:$(docker port mongos1 27017|cut -d ":" -f2)/admin /enabelSharding.js" jacksoncage/mongo
-sleep 15 # Wait sharding to be enabled
-docker run --dns ${DOCKERIP} -P -i -t -e OPTIONS=" ${DOCKERIP}:$(docker port mongos1 27017|cut -d ":" -f2) /addIndexes.js" jacksoncage/mongo
+
+echo "Setup and configure mongo router"
+
+docker run -P -i -d \
+			--dns ${SKYDNS} \
+			--name mongos1 \
+			-h mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
+			${IMAGE} \
+		mongos --configdb configserver1.${IMAGE}.${ENVIRONMENT}.${DOMAIN}:27019,configserver2.${IMAGE}.${ENVIRONMENT}.${DOMAIN}:27019,configserver3.${IMAGE}.${ENVIRONMENT}.${DOMAIN}:27019 \
+			--config /etc/mongos.conf \
+			--shardsvr # port 27018
+
+sleep $SLEEPTIME # Wait for mongos to start
+
+docker run -P -i -t \
+			--dns ${SKYDNS} \
+			${IMAGE} \
+		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
+			--port 27017 \
+			/addShard.js
+
+sleep $SLEEPTIME # Wait for shards to register with the query router
+
+docker run -P -i -t \
+			--dns ${SKYDNS} \
+			${IMAGE} \
+		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
+			--port 27017 \
+			/addDBs.js
+
+sleep $SLEEPTIME # Wait for db to be created
+
+docker run -P -i -t \
+			--dns ${SKYDNS} \
+			${IMAGE} \
+		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
+			--port 27017 \
+			/enabelSharding.js
+
+sleep $SLEEPTIME # Wait sharding to be enabled
+
+docker run -P -i -t \
+			--dns ${SKYDNS} \
+			${IMAGE} \
+		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
+			--port 27017 \
+			/addIndexes.js
+
 
 echo "#####################################"
+
 echo "MongoDB Cluster is now ready to use"
+
 echo "Connect to cluster by:"
-echo "$ mongo --port $(docker port mongos1 27017|cut -d ":" -f2)"
+
+echo "$ mongo --port 27017"
