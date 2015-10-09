@@ -1,0 +1,12 @@
+docker build -t test .
+docker run --name t -d -P test mongod
+docker exec -i t0 mongo
+
+get connection info from 
+	ifconfig
+	docker port t
+	
+on the local machine run
+	mongoimport --host 192.168.31.132 --port 32770 "E:\Perforce\Drivers\MongoDBODBC\Development\Dev01\Product\Tests\Touchstone\TestData\emp.json"
+	mongo IP:Port
+		db.emp.find().pretty()

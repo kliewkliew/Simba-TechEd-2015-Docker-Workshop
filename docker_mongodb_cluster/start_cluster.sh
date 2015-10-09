@@ -16,10 +16,8 @@ SKYDNS="172.17.42.1"
 echo "Clean up"
 
 containers=( skydns skydock shard1node1 shard1node2 shard2node1 shard2node2 shard3node1 shard3node2 configserver1 configserver2 configserver3 mongos1 )
-
 for c in ${containers[@]}; do
 	docker kill ${c} 	> /dev/null 2>&1
-
 	docker rm ${c} 		> /dev/null 2>&1
 done
 
@@ -27,22 +25,16 @@ done
 echo "Setup skydns/skydock"
 
 docker run -d -p ${SKYDNS}:53:53/udp --name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain ${DOMAIN}
-
 docker run -d -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/skydock -ttl 30 -environment ${ENVIRONMENT} -s /docker.sock -domain ${DOMAIN} -name skydns
 
 
 
 for (( i = 1; i < 4; i++ )); do
 	# Setup local db storage if not exist
-
 	if [ ! -d "${LOCALPATH}/db/${i}-1" ]; then
-
 		mkdir -p ${LOCALPATH}/mongodata/${i}-1
-
 		mkdir -p ${LOCALPATH}/mongodata/${i}-2
-
 		mkdir -p ${LOCALPATH}/mongodata/${i}-cfg
-
 	fi
 
 echo "Create mongod servers"
@@ -153,9 +145,6 @@ docker run -P -i -t \
 
 
 echo "#####################################"
-
 echo "MongoDB Cluster is now ready to use"
-
 echo "Connect to cluster by:"
-
-echo "$ mongo --port 27017"
+echo "$ mongo --port $(docker port mongos1 27017|cut -d ":" -f2)"
