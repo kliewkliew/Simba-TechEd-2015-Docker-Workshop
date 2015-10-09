@@ -1,6 +1,6 @@
 docker build -t test .
 docker run --name t -d -P test mongod
-docker exec -i t0 mongo
+docker exec -i t mongo
 
 get connection info from 
 	ifconfig
