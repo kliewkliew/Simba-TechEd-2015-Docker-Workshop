@@ -7,6 +7,6 @@ get connection info from
 	docker port t
 	
 on the local machine run
-	mongoimport --host 192.168.31.132 --port 32770 "E:\Perforce\Drivers\MongoDBODBC\Development\Dev01\Product\Tests\Touchstone\TestData\emp.json"
+	mongoimport --host IP --port PORT "E:\Perforce\Drivers\MongoDBODBC\Development\Dev01\Product\Tests\Touchstone\TestData\emp.json"
 	mongo IP:Port
 		db.emp.find().pretty()

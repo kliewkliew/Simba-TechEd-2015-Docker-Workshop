@@ -39,7 +39,7 @@ for (( i = 1; i < 4; i++ )); do
 
 echo "Create mongod servers"
 
-	docker run -P -i -d \
+	docker run -P -d \
 			-v ${LOCALPATH}/mongodata/${i}-1:/data/db \
 			--dns ${SKYDNS} \
 			--name shard${i}node1 \
@@ -50,7 +50,7 @@ echo "Create mongod servers"
 			--config /etc/mongod.conf \
 			--notablescan
 
-	docker run -P -i -d \
+	docker run -P -d \
 			-v ${LOCALPATH}/mongodata/${i}-2:/data/db \
 			--dns ${SKYDNS} \
 			--name shard${i}node2 \
@@ -65,7 +65,7 @@ echo "Create mongod servers"
 
 echo "Setup replica set"
 
-	docker run -P -i -t \
+	docker run -it \
 			--dns ${SKYDNS} \
 			${IMAGE} \
 		mongo --host shard${i}node1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
@@ -74,7 +74,7 @@ echo "Setup replica set"
 
 	sleep 10 # Waiting for set to be initiated
 
-	docker run -P -i -t \
+	docker run -it \
 			--dns ${SKYDNS} \
 			${IMAGE} \
 		mongo --host shard${i}node1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
@@ -83,7 +83,7 @@ echo "Setup replica set"
 
 echo "Create configserver"
 
-	docker run -P -i -d \
+	docker run -P -d \
 			-v ${LOCALPATH}/mongodata/${i}-cfg:/data/db \
 			--dns ${SKYDNS} \
 			--name configserver${i} \
@@ -98,7 +98,7 @@ done
 
 echo "Setup and configure mongo router"
 
-docker run -P -i -d \
+docker run -P -d \
 			--dns ${SKYDNS} \
 			--name mongos1 \
 			-h mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
@@ -109,7 +109,7 @@ docker run -P -i -d \
 
 sleep $SLEEPTIME # Wait for mongos to start
 
-docker run -P -i -t \
+docker run -it \
 			--dns ${SKYDNS} \
 			${IMAGE} \
 		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
@@ -118,7 +118,7 @@ docker run -P -i -t \
 
 sleep $SLEEPTIME # Wait for shards to register with the query router
 
-docker run -P -i -t \
+docker run -it \
 			--dns ${SKYDNS} \
 			${IMAGE} \
 		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
@@ -127,7 +127,7 @@ docker run -P -i -t \
 
 sleep $SLEEPTIME # Wait for db to be created
 
-docker run -P -i -t \
+docker run -it \
 			--dns ${SKYDNS} \
 			${IMAGE} \
 		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
@@ -136,7 +136,7 @@ docker run -P -i -t \
 
 sleep $SLEEPTIME # Wait sharding to be enabled
 
-docker run -P -i -t \
+docker run -it \
 			--dns ${SKYDNS} \
 			${IMAGE} \
 		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
