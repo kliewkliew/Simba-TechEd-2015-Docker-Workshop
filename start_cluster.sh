@@ -5,7 +5,7 @@ LOCALPATH="/mongodb"
 
 SLEEPTIME=7
 
-# If you change these, you also need to modify js/addShard.js
+# If you change these, you also need to modify provision/js/addShard.js, provision/js/setupReplicaSet#.js
 IMAGE="mongodb"
 ENVIRONMENT="dev"
 DOMAIN="docker"
@@ -44,7 +44,7 @@ echo "Create mongod servers"
 			--dns ${SKYDNS} \
 			--name shard${i}node1 \
 			-h shard${i}node1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
-			${IMAGE} \
+		${IMAGE} \
 		mongod --replSet set${i} \
 			--dbpath /data/db \
 			--config /etc/mongod.conf \
@@ -55,7 +55,7 @@ echo "Create mongod servers"
 			--dns ${SKYDNS} \
 			--name shard${i}node2 \
 			-h shard${i}node2.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
-			${IMAGE} \
+		${IMAGE} \
 		mongod --replSet set${i} \
 			--dbpath /data/db \
 			--config /etc/mongod.conf \
@@ -67,19 +67,20 @@ echo "Setup replica set"
 
 	docker run -it \
 			--dns ${SKYDNS} \
-			${IMAGE} \
+			--name shellContainer \
+		${IMAGE} \
 		mongo --host shard${i}node1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
 			--port 27017 \
-			/initiate.js
+			~/js/initiate.js
 
 	sleep 10 # Waiting for set to be initiated
 
-	docker run -it \
+	docker exec -it \
 			--dns ${SKYDNS} \
-			${IMAGE} \
+		shellContainer \
 		mongo --host shard${i}node1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
 			--port 27017 \
-			/setupReplicaSet${i}.js
+			~/js/setupReplicaSet${i}.js
 
 echo "Create configserver"
 
@@ -88,7 +89,7 @@ echo "Create configserver"
 			--dns ${SKYDNS} \
 			--name configserver${i} \
 			-h configserver${i}.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
-			${IMAGE} \
+		${IMAGE} \
 		mongod --dbpath /data/db \
 			--config /etc/mongoc.conf \
 			--notablescan \
@@ -102,47 +103,39 @@ docker run -P -d \
 			--dns ${SKYDNS} \
 			--name mongos1 \
 			-h mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
-			${IMAGE} \
+		${IMAGE} \
 		mongos --configdb configserver1.${IMAGE}.${ENVIRONMENT}.${DOMAIN}:27019,configserver2.${IMAGE}.${ENVIRONMENT}.${DOMAIN}:27019,configserver3.${IMAGE}.${ENVIRONMENT}.${DOMAIN}:27019 \
 			--config /etc/mongos.conf \
 			--shardsvr # port 27018
 
 sleep $SLEEPTIME # Wait for mongos to start
 
-docker run -it \
+docker exec -it \
 			--dns ${SKYDNS} \
-			${IMAGE} \
+		shellContainer \
 		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
 			--port 27017 \
-			/addShard.js
+			~/js/addShard.js
 
 sleep $SLEEPTIME # Wait for shards to register with the query router
 
-docker run -it \
+docker exec -it \
 			--dns ${SKYDNS} \
-			${IMAGE} \
+		shellContainer \
 		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
 			--port 27017 \
-			/addDBs.js
+			~/js/addDBs.js
 
 sleep $SLEEPTIME # Wait for db to be created
 
-docker run -it \
+docker exec -it \
 			--dns ${SKYDNS} \
-			${IMAGE} \
+		shellContainer \
 		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
 			--port 27017 \
-			/enabelSharding.js
+			~/js/enableSharding.js
 
 sleep $SLEEPTIME # Wait sharding to be enabled
-
-docker run -it \
-			--dns ${SKYDNS} \
-			${IMAGE} \
-		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
-			--port 27017 \
-			/addIndexes.js
-
 
 echo "#####################################"
 echo "MongoDB Cluster is now ready to use"

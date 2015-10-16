@@ -14,7 +14,7 @@ There unfortunately some hard-coded timeouts due to timing issues with MongoDB.
 ## Installation:
 
 ## Setup Cluster
-	./docker/start_cluster.sh"
+	./docker/start_cluster.sh
 
 You should now be able connect to mongos1 and the new sharded cluster:
 

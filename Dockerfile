@@ -16,11 +16,18 @@ ADD provision/tmp/mongodb-linux-x86_64-$MONGO_VERSION.tgz /tmp/
 # Provision configuration files
 ADD provision/etc /etc
 
-ADD js .
+# Provision the test data
+ADD provision/data /tmp
+
+ADD provision/js ~/js
 
 # Install MongoDB for 64-bit Linux
 RUN mkdir -p $MONGO_HOME && \
     cp -R -n /tmp/mongodb-linux-x86_64-$MONGO_VERSION/ $MONGO_HOME && \
     mkdir -p /data/db
 
+# Import the test data
+RUN mongoimport /tmp/emp.json
+
+# Expose ports that can be forwarded from the host
 EXPOSE 27017 27018 27019
