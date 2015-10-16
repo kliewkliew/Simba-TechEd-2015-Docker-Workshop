@@ -5,11 +5,8 @@ LOCALPATH="/mongodb"
 
 SLEEPTIME=7
 
-# If you change these, you also need to modify provision/js/addShard.js, provision/js/setupReplicaSet#.js
-IMAGE="mongodb"
-ENVIRONMENT="dev"
-DOMAIN="docker"
-
+# If you change this, you also need to modify provision/js/addShard.js, provision/js/setupReplicaSet#.js
+IMAGE="mongodbimg"
 
 SKYDNS="172.17.42.1"
 
@@ -24,8 +21,8 @@ done
 
 echo "Setup skydns/skydock"
 
-docker run -d -p ${SKYDNS}:53:53/udp --name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain ${DOMAIN}
-docker run -d -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/skydock -ttl 30 -environment ${ENVIRONMENT} -s /docker.sock -domain ${DOMAIN} -name skydns
+docker run -d -p ${SKYDNS}:53:53/udp --name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain docker
+docker run -d -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/skydock -ttl 30 -environment dev -s /docker.sock -domain docker -name skydns
 
 
 
@@ -43,7 +40,6 @@ echo "Create mongod servers"
 			-v ${LOCALPATH}/mongodata/${i}-1:/data/db \
 			--dns ${SKYDNS} \
 			--name shard${i}node1 \
-			-h shard${i}node1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
 		${IMAGE} \
 		mongod --replSet set${i} \
 			--dbpath /data/db \
@@ -54,7 +50,6 @@ echo "Create mongod servers"
 			-v ${LOCALPATH}/mongodata/${i}-2:/data/db \
 			--dns ${SKYDNS} \
 			--name shard${i}node2 \
-			-h shard${i}node2.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
 		${IMAGE} \
 		mongod --replSet set${i} \
 			--dbpath /data/db \
@@ -81,7 +76,6 @@ echo "Create configserver"
 			-v ${LOCALPATH}/mongodata/${i}-cfg:/data/db \
 			--dns ${SKYDNS} \
 			--name configserver${i} \
-			-h configserver${i}.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
 		${IMAGE} \
 		mongod --dbpath /data/db \
 			--config /etc/mongoc.conf \
@@ -95,9 +89,8 @@ echo "Setup and configure mongo router"
 docker run -P -d \
 			--dns ${SKYDNS} \
 			--name mongos1 \
-			-h mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
 		${IMAGE} \
-		mongos --configdb configserver1.${IMAGE}.${ENVIRONMENT}.${DOMAIN}:27019,configserver2.${IMAGE}.${ENVIRONMENT}.${DOMAIN}:27019,configserver3.${IMAGE}.${ENVIRONMENT}.${DOMAIN}:27019 \
+		mongos --configdb configserver1.${IMAGE}.dev.docker:27019,configserver2.${IMAGE}.dev.docker:27019,configserver3.${IMAGE}.dev.docker:27019 \
 			--config /etc/mongos.conf \
 			--shardsvr # port 27018
 
@@ -124,4 +117,4 @@ sleep $SLEEPTIME # Wait sharding to be enabled
 echo "#####################################"
 echo "MongoDB Cluster is now ready to use"
 echo "Connect to cluster by:"
-echo "$ mongo --port $(docker port mongos1 27017|cut -d ":" -f2)"
+echo "$ mongo --port $(docker port mongos1 27017 | cut -d ":" -f2)"
