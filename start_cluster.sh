@@ -65,22 +65,15 @@ echo "Create mongod servers"
 
 echo "Setup replica set"
 
-	docker run -it \
-			--dns ${SKYDNS} \
-			--name shellContainer \
-		${IMAGE} \
-		mongo --host shard${i}node1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
-			--port 27017 \
-			~/js/initiate.js
+	docker exec -it \
+		shard${i}node1 \
+		mongo ~/js/initiate.js
 
 	sleep 10 # Waiting for set to be initiated
 
 	docker exec -it \
-			--dns ${SKYDNS} \
-		shellContainer \
-		mongo --host shard${i}node1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
-			--port 27017 \
-			~/js/setupReplicaSet${i}.js
+		shard${i}node1 \
+		mongo ~/js/setupReplicaSet${i}.js
 
 echo "Create configserver"
 
@@ -111,29 +104,20 @@ docker run -P -d \
 sleep $SLEEPTIME # Wait for mongos to start
 
 docker exec -it \
-			--dns ${SKYDNS} \
-		shellContainer \
-		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
-			--port 27017 \
-			~/js/addShard.js
+		mongos1 \
+		mongo ~/js/addShard.js
 
 sleep $SLEEPTIME # Wait for shards to register with the query router
 
 docker exec -it \
-			--dns ${SKYDNS} \
-		shellContainer \
-		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
-			--port 27017 \
-			~/js/addDBs.js
+		mongos1 \
+		mongo ~/js/addDBs.js
 
 sleep $SLEEPTIME # Wait for db to be created
 
 docker exec -it \
-			--dns ${SKYDNS} \
-		shellContainer \
-		mongo --host mongos1.${IMAGE}.${ENVIRONMENT}.${DOMAIN} \
-			--port 27017 \
-			~/js/enableSharding.js
+		mongos1 \
+		mongo ~/js/enableSharding.js
 
 sleep $SLEEPTIME # Wait sharding to be enabled
 
