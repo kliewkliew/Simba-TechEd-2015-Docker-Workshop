@@ -3,7 +3,7 @@
 # Persistent storage of container database files on the host
 LOCALPATH="/mongodb"
 
-SLEEPTIME=7
+SLEEPTIME=15
 
 # If you change this, you also need to modify provision/js/addShard.js, provision/js/setupReplicaSet#.js
 IMAGE="mongodbimg"
@@ -13,7 +13,8 @@ SKYDNS="172.17.42.1"
 echo "Clean up"
 
 containers=( skydns skydock shard1node1 shard1node2 shard2node1 shard2node2 shard3node1 shard3node2 configserver1 configserver2 configserver3 mongos1 )
-for c in ${containers[@]}; do
+for c in ${containers[@]};
+do
 	docker kill ${c} 	> /dev/null 2>&1
 	docker rm ${c} 		> /dev/null 2>&1
 done
@@ -21,96 +22,87 @@ done
 
 echo "Setup skydns/skydock"
 
-docker run -d -p ${SKYDNS}:53:53/udp --name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain docker
+docker run -d -p 172.17.42.1:53:53/udp --name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain docker
 docker run -d -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/skydock -ttl 30 -environment dev -s /docker.sock -domain docker -name skydns
 
 
 
 for (( i = 1; i < 4; i++ )); do
-	# Setup local db storage if not exist
-	if [ ! -d "${LOCALPATH}/db/${i}-1" ]; then
-		mkdir -p ${LOCALPATH}/mongodata/${i}-1
-		mkdir -p ${LOCALPATH}/mongodata/${i}-2
-		mkdir -p ${LOCALPATH}/mongodata/${i}-cfg
-	fi
 
-echo "Create mongod servers"
+	echo "Create mongod servers"
 
 	docker run -P -d \
-			-v ${LOCALPATH}/mongodata/${i}-1:/data/db \
-			--dns ${SKYDNS} \
+			--dns 172.17.42.1 \
 			--name shard${i}node1 \
 		${IMAGE} \
 		mongod --replSet set${i} \
-			--dbpath /data/db \
 			--config /etc/mongod.conf \
-			--notablescan
+			--notablescan \
+			--shardsvr # port 27018
 
 	docker run -P -d \
-			-v ${LOCALPATH}/mongodata/${i}-2:/data/db \
-			--dns ${SKYDNS} \
+			--dns 172.17.42.1 \
 			--name shard${i}node2 \
 		${IMAGE} \
 		mongod --replSet set${i} \
-			--dbpath /data/db \
 			--config /etc/mongod.conf \
-			--notablescan
+			--notablescan \
+			--shardsvr # port 27018
 
 	sleep $SLEEPTIME # Wait for mongodb to start
 
-echo "Setup replica set"
+	echo "Setup replica set"
 
 	docker exec -it \
 		shard${i}node1 \
-		mongo ~/js/initiate.js
+		mongo --port 27018 \
+			'~/js/initiate.js'
 
-	sleep 10 # Waiting for set to be initiated
+	sleep $SLEEPTIME # Waiting for set to be initiated
 
 	docker exec -it \
 		shard${i}node1 \
-		mongo ~/js/setupReplicaSet${i}.js
+		mongo --port 27018 \
+			"~/js/setupReplicaSet${i}.js"
 
-echo "Create configserver"
+	echo "Create configserver"
 
 	docker run -P -d \
-			-v ${LOCALPATH}/mongodata/${i}-cfg:/data/db \
-			--dns ${SKYDNS} \
+			--dns 172.17.42.1 \
 			--name configserver${i} \
 		${IMAGE} \
-		mongod --dbpath /data/db \
-			--config /etc/mongoc.conf \
+		mongod --config /etc/mongoc.conf \
 			--notablescan \
 			--configsvr # port 27019
 done
 
 
-echo "Setup and configure mongo router"
+echo "Setup and configure mongo query router"
 
 docker run -P -d \
-			--dns ${SKYDNS} \
+			--dns 172.17.42.1 \
 			--name mongos1 \
 		${IMAGE} \
 		mongos --configdb configserver1.${IMAGE}.dev.docker:27019,configserver2.${IMAGE}.dev.docker:27019,configserver3.${IMAGE}.dev.docker:27019 \
-			--config /etc/mongos.conf \
-			--shardsvr # port 27018
+			--config /etc/mongos.conf
 
 sleep $SLEEPTIME # Wait for mongos to start
 
 docker exec -it \
 		mongos1 \
-		mongo ~/js/addShard.js
+		mongo '~/js/addShard.js'
 
 sleep $SLEEPTIME # Wait for shards to register with the query router
 
 docker exec -it \
 		mongos1 \
-		mongo ~/js/addDBs.js
+		mongoimport '~/emp.json'
 
-sleep $SLEEPTIME # Wait for db to be created
+sleep $SLEEPTIME # Wait for data to be imported
 
 docker exec -it \
 		mongos1 \
-		mongo ~/js/enableSharding.js
+		mongo '~/js/enableSharding.js'
 
 sleep $SLEEPTIME # Wait sharding to be enabled
 
