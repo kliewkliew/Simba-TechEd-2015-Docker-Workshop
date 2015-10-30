@@ -6,7 +6,7 @@ LOCALPATH="/mongodb"
 SLEEPTIME=15
 
 # If you change this, you also need to modify provision/js/addShard.js, provision/js/setupReplicaSet#.js
-IMAGE="mongod:3.0.5"
+IMAGE="mongodb:3.0.5"
 
 SKYDNS="172.17.42.1"
 
