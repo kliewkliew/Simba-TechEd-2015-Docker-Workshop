@@ -13,7 +13,7 @@ SKYDNS="172.17.42.1"
 
 echo "Clean up"
 
-containers=( skydns skydock shard1node1 shard1node2 shard2node1 shard2node2 configserver1 configserver2 configserver3 mongos1 )
+containers=( skydns skydock shard1node1 shard1node2 shard2node1 shard2node2 configserver1 mongos1 )
 for c in ${containers[@]};
 do
 	docker kill ${c} 	> /dev/null 2>&1
@@ -35,24 +35,30 @@ for (( i = 1; i < 3; i++ )); do
 	docker run -P -d \
 			--name shard${i}node1 \
 			--dns 172.17.42.1 \
+			--net bridge \
+			-v /var/log/$IMAGE-$TAG/shard${i}node1:/var/log/mongodb/ \
 		${IMAGE}:${TAG} \
 		mongod --replSet set${i} \
 			--config /etc/mongod.conf \
+			--logpath /var/log/mongodb/mongod.log \
 			--notablescan \
 			--shardsvr # port 27018
 
 	docker run -P -d \
 			--name shard${i}node2 \
 			--dns 172.17.42.1 \
+			--net bridge \
+			-v /var/log/$IMAGE-$TAG/shard${i}node1:/var/log/mongodb/ \
 		${IMAGE}:${TAG} \
 		mongod --replSet set${i} \
 			--config /etc/mongod.conf \
+			--logpath /var/log/mongodb/mongod.log \
 			--notablescan \
 			--shardsvr # port 27018
 
 	sleep $SLEEPTIME # Wait for mongodb to start
 
-	echo "Setup replica set"
+	echo "Setup replica set $i"
 
 	docker exec -it \
 		shard${i}node1 \
@@ -65,27 +71,32 @@ for (( i = 1; i < 3; i++ )); do
 		shard${i}node1 \
 		mongo --port 27018 \
 			"~/js/setupReplicaSet${i}.js"
-
-	echo "Create configserver"
-
-	docker run -P -d \
-			--name configserver${i} \
-			--dns 172.17.42.1 \
-		${IMAGE}:${TAG} \
-		mongod --config /etc/mongoc.conf \
-			--notablescan \
-			--configsvr # port 27019
 done
 
+echo "Create configserver"
+
+docker run -P -d \
+		--name configserver1 \
+		--dns 172.17.42.1 \
+		--net bridge \
+			-v /var/log/$IMAGE-$TAG/shard${i}node1:/var/log/mongodb/ \
+	${IMAGE}:${TAG} \
+	mongod --config /etc/mongoc.conf \
+			--logpath /var/log/mongodb/mongoc.log \
+		--notablescan \
+		--configsvr # port 27019
 
 echo "Setup and configure mongo query router"
 
 docker run -p 27017:27017 -d \
 			--name mongos1 \
 			--dns 172.17.42.1 \
+			--net bridge \
+			-v /var/log/$IMAGE-$TAG/shard${i}node1:/var/log/mongodb/ \
 		${IMAGE}:${TAG} \
-		mongos --configdb configserver1.${IMAGE}.dev.docker:27019,configserver2.${IMAGE}.dev.docker:27019,configserver3.${IMAGE}.dev.docker:27019 \
-			--config /etc/mongos.conf
+		mongos --configdb configserver1.${IMAGE}.dev.docker:27019 \
+			--config /etc/mongos.conf \
+			--logpath /var/log/mongodb/mongos.log \
 
 sleep $SLEEPTIME # Wait for mongos to start
 

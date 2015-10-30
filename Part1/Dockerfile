@@ -9,7 +9,7 @@ ADD provision/tmp/mongodb-linux-x86_64-$MONGODB_VERSION.tgz /tmp/
 
 # Install MongoDB for 64-bit Linux
 RUN cp -r /tmp/mongodb-linux-x86_64-$MONGODB_VERSION/bin /usr && \
-    mkdir -p /data/db && \
+	mkdir -p /data/db && \
 	mkdir -p /data/configdb
 
 # Provision the test data (still need to use mongoimport on these json files)

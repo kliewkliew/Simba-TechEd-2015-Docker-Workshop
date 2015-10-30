@@ -3,8 +3,8 @@ This repository provides a Dockerfile and a bootstrap script to create MongoDB C
 
 MongoDB cluster consisted of the following docker containers
 
- - **shard<1-3>node<1-3>**: Mongod server with three replica sets distributes on six mongo containers.
- - **configservers<1-3>**: Stores metadata for sharded cluster distributed on three mongo containers.
+ - **shard<1-2>node<1-2>**: Mongod server with three replica sets distributes on six mongo containers.
+ - **configservers<1-2>**: Stores metadata for sharded cluster distributed on three mongo containers.
  - **mongos1**:	Mongo routing service installed on one mongo container.
  - **skydock**:	Used for service discovery and inserts internal docker images records into skydns.
  - **skydns**: Used as internal DNS for containers.
@@ -14,7 +14,11 @@ There unfortunately some hard-coded timeouts due to timing issues with MongoDB.
 ## Installation:
 
 ## Setup Cluster
-	./docker/start_cluster.sh
+	sh start_cluster.sh
+Specify the -x option for debugging
+	sh -x start_cluster.sh
+	
+If you get a unrecognized token error, as with any script, you need to convert the file line-endings to UNIX.
 
 You should now be able connect to mongos1 and the new sharded cluster:
 
