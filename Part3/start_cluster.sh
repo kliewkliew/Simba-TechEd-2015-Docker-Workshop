@@ -6,13 +6,14 @@ LOCALPATH="/mongodb"
 SLEEPTIME=15
 
 # If you change this, you also need to modify provision/js/addShard.js, provision/js/setupReplicaSet#.js
-IMAGE="mongodb:3.0.5"
+IMAGE="mongodb"
+TAG="3.0.5"
 
 SKYDNS="172.17.42.1"
 
 echo "Clean up"
 
-containers=( skydns skydock shard1node1 shard1node2 shard2node1 shard2node2 shard3node1 shard3node2 configserver1 configserver2 configserver3 mongos1 )
+containers=( skydns skydock shard1node1 shard1node2 shard2node1 shard2node2 configserver1 configserver2 configserver3 mongos1 )
 for c in ${containers[@]};
 do
 	docker kill ${c} 	> /dev/null 2>&1
@@ -27,23 +28,23 @@ docker run -d -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/
 
 
 
-for (( i = 1; i < 4; i++ )); do
+for (( i = 1; i < 3; i++ )); do
 
 	echo "Create mongod servers"
 
 	docker run -P -d \
-			--dns 172.17.42.1 \
 			--name shard${i}node1 \
-		${IMAGE} \
+			--dns 172.17.42.1 \
+		${IMAGE}:${TAG} \
 		mongod --replSet set${i} \
 			--config /etc/mongod.conf \
 			--notablescan \
 			--shardsvr # port 27018
 
 	docker run -P -d \
-			--dns 172.17.42.1 \
 			--name shard${i}node2 \
-		${IMAGE} \
+			--dns 172.17.42.1 \
+		${IMAGE}:${TAG} \
 		mongod --replSet set${i} \
 			--config /etc/mongod.conf \
 			--notablescan \
@@ -68,9 +69,9 @@ for (( i = 1; i < 4; i++ )); do
 	echo "Create configserver"
 
 	docker run -P -d \
-			--dns 172.17.42.1 \
 			--name configserver${i} \
-		${IMAGE} \
+			--dns 172.17.42.1 \
+		${IMAGE}:${TAG} \
 		mongod --config /etc/mongoc.conf \
 			--notablescan \
 			--configsvr # port 27019
@@ -79,10 +80,10 @@ done
 
 echo "Setup and configure mongo query router"
 
-docker run -P -d \
-			--dns 172.17.42.1 \
+docker run -p 27017:27017 -d \
 			--name mongos1 \
-		${IMAGE} \
+			--dns 172.17.42.1 \
+		${IMAGE}:${TAG} \
 		mongos --configdb configserver1.${IMAGE}.dev.docker:27019,configserver2.${IMAGE}.dev.docker:27019,configserver3.${IMAGE}.dev.docker:27019 \
 			--config /etc/mongos.conf
 
