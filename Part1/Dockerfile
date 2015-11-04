@@ -2,7 +2,7 @@ FROM centos:6.6
 
 MAINTAINER Kevin Liew <kevinl@simba.com>
 
-ENV MONGODB_VERSION 3.0.5
+ENV MONGODB_VERSION 3.0.7
 
 # Provision the MongoDB tar file (archives are automatically extracted by Docker, so don't run tar on the image)
 ADD provision/tmp/mongodb-linux-x86_64-$MONGODB_VERSION.tgz /tmp/
@@ -13,14 +13,16 @@ RUN cp -r /tmp/mongodb-linux-x86_64-$MONGODB_VERSION/bin /usr && \
 	mkdir -p /data/configdb
 
 # Provision the test data
-COPY provision/data ~/data
-COPY provision/scripts ~/scripts
+COPY provision/data /provision/data
+COPY provision/scripts /provision/scripts
 
 # Import the test data
-RUN sh ~/scripts/importData.sh ~/data
+RUN sh ~/scripts/importData.sh /provision/data
 
 # Provision configuration files
 COPY provision/etc /etc
 
 # Expose ports that can be forwarded from the host
 EXPOSE 27017 27018 27019
+
+ENTRYPOINT ["mongod"]

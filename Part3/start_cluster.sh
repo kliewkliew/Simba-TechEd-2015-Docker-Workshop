@@ -63,14 +63,14 @@ for (( i = 1; i < 3; i++ )); do
 	docker exec -it \
 		shard${i}node1 \
 		mongo --port 27018 \
-			'~/scripts/initiate.js'
+			'/provision/scripts/initiate.js'
 
 	sleep $SLEEPTIME # Waiting for set to be initiated
 
 	docker exec -it \
 		shard${i}node1 \
 		mongo --port 27018 \
-			"~/scripts/setupReplicaSet${i}.js"
+			"/provision/scripts/setupReplicaSet${i}.js"
 done
 
 echo "Create configserver"
@@ -102,19 +102,19 @@ sleep $SLEEPTIME # Wait for mongos to start
 
 docker exec -it \
 		mongos1 \
-		mongo '~/scripts/addShard.js'
+		mongo '/provision/scripts/addShard.js'
 
 sleep $SLEEPTIME # Wait for shards to register with the query router
 
 docker exec -it \
 		mongos1 \
-		mongoimport '~/data/emp.json'
+		mongoimport '/provision/data/emp.json'
 
 sleep $SLEEPTIME # Wait for data to be imported
 
 docker exec -it \
 		mongos1 \
-		mongo '~/scripts/enableSharding.js'
+		mongo '/provision/scripts/enableSharding.js'
 
 sleep $SLEEPTIME # Wait sharding to be enabled
 
