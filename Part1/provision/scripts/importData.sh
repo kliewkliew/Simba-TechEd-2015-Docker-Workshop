@@ -5,8 +5,9 @@
 # Import data from the specified directory
 
 mongod --fork --logpath /var/log/mongod.log
-sleep 10
 
-mongoimport $1
+for filename in $1/*.json; do
+	mongoimport $filename
+done
 
 mongod --shutdown
