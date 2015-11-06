@@ -79,7 +79,7 @@ docker run -P -d \
 		--name configserver1 \
 		--dns 172.17.42.1 \
 		--net bridge \
-			-v /var/log/$IMAGE-$TAG/shard${i}node1:/var/log/mongodb/ \
+			-v /var/log/$IMAGE-$TAG/configserver1:/var/log/mongodb/ \
 	${IMAGE}:${TAG} \
 	mongod --config /etc/mongoc.conf \
 			--logpath /var/log/mongodb/mongoc.log \
@@ -92,11 +92,11 @@ docker run -p 27017:27017 -d \
 			--name mongos1 \
 			--dns 172.17.42.1 \
 			--net bridge \
-			-v /var/log/$IMAGE-$TAG/shard${i}node1:/var/log/mongodb/ \
+			-v /var/log/$IMAGE-$TAG/mongos1:/var/log/mongodb/ \
 		${IMAGE}:${TAG} \
 		mongos --configdb configserver1.${IMAGE}.dev.docker:27019 \
 			--config /etc/mongos.conf \
-			--logpath /var/log/mongodb/mongos.log \
+			--logpath /var/log/mongodb/mongos.log
 
 sleep $SLEEPTIME # Wait for mongos to start
 
