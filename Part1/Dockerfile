@@ -17,7 +17,7 @@ COPY provision/data /provision/data
 COPY provision/scripts /provision/scripts
 
 # Import the test data
-RUN sh ~/scripts/importData.sh /provision/data
+RUN sh /provision/scripts/importData.sh /provision/data/emp.json
 
 # Provision configuration files
 COPY provision/etc /etc
