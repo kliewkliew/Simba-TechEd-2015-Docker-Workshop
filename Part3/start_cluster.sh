@@ -108,12 +108,6 @@ sleep $SLEEPTIME # Wait for shards to register with the query router
 
 docker exec -it \
 		mongos1 \
-		mongoimport '/provision/data/emp.json'
-
-sleep $SLEEPTIME # Wait for data to be imported
-
-docker exec -it \
-		mongos1 \
 		mongo '/provision/scripts/enableSharding.js'
 
 sleep $SLEEPTIME # Wait sharding to be enabled
