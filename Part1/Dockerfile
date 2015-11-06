@@ -24,5 +24,3 @@ COPY provision/etc /etc
 
 # Expose ports that can be forwarded from the host
 EXPOSE 27017 27018 27019
-
-ENTRYPOINT ["mongod"]
