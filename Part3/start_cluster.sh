@@ -88,6 +88,8 @@ docker run -P -d \
 
 echo "Setup and configure mongo query router"
 
+sleep $SLEEPTIME # Wait for mongos to start
+
 docker run -p 27017:27017 -d \
 			--name mongos1 \
 			--dns 172.17.42.1 \
