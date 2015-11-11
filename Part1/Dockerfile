@@ -16,9 +16,6 @@ RUN cp -r /tmp/mongodb-linux-x86_64-$MONGODB_VERSION/bin /usr && \
 COPY provision/data /provision/data
 COPY provision/scripts /provision/scripts
 
-# Import the test data
-RUN sh /provision/scripts/importData.sh /provision/data
-
 # Provision configuration files
 COPY provision/etc /etc
 
