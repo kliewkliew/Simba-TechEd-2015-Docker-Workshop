@@ -63,14 +63,17 @@ for (( i = 1; i < 3; i++ )); do
 	docker exec -it \
 		shard${i}node1 \
 		mongo --port 27018 \
-			'/provision/scripts/initiate.js'
+			--eval "printjson(rs.initiate())"
 
 	sleep $SLEEPTIME # Waiting for set to be initiated
 
 	docker exec -it \
 		shard${i}node1 \
 		mongo --port 27018 \
-			"/provision/scripts/setupReplicaSet${i}.js"
+			--eval "printjson(rs.add('shard${i}node2.mongodb.dev.docker:27018')); \
+				cfg = rs.conf(); \
+				cfg.members[0].host = 'shard${i}node1.mongodb.dev.docker:27018'; \
+				printjson(rs.reconfig(cfg));"
 done
 
 echo "Create configserver"
@@ -88,7 +91,7 @@ docker run -P -d \
 
 echo "Setup and configure mongo query router"
 
-sleep $SLEEPTIME # Wait for mongos to start
+sleep $SLEEPTIME # Wait for configserver1 to start
 
 docker run -p 27017:27017 -d \
 			--name mongos1 \
@@ -104,7 +107,9 @@ sleep $SLEEPTIME # Wait for mongos to start
 
 docker exec -it \
 		mongos1 \
-		mongo '/provision/scripts/addShard.js'
+		mongo \
+			--eval "printjson(sh.addShard('set1/shard1node1.mongodb.dev.docker:27018')); \
+				printjson(sh.addShard('set2/shard2node1.mongodb.dev.docker:27018'));"
 
 sleep $SLEEPTIME # Wait for shards to register with the query router
 
