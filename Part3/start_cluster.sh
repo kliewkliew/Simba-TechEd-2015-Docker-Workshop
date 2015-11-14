@@ -3,7 +3,7 @@
 # Persistent storage of container database files on the host
 LOCALPATH="/mongodb"
 
-SLEEPTIME=15
+SLEEPTIME=60
 
 # If you change this, you also need to modify provision/js/addShard.js, provision/js/setupReplicaSet#.js
 IMAGE="mongodb"
@@ -115,7 +115,11 @@ sleep $SLEEPTIME # Wait for shards to register with the query router
 
 docker exec -it \
 		mongos1 \
-		mongo '/provision/scripts/enableSharding.js'
+		mongo \
+			--eval "db = db.getSiblingDB('admin');
+				printjson(db.runCommand( { enableSharding : 'test' } )); \
+				printjson(db.emp.createIndex({_id: 'hashed'}, {background: false})); \
+				printjson(sh.shardCollection( 'test.emp', { _id: 'hashed' } ));"
 
 sleep $SLEEPTIME # Wait sharding to be enabled
 
