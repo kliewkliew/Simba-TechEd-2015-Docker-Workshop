@@ -41,7 +41,6 @@ for (( i = 1; i < 3; i++ )); do
 		mongod --replSet set${i} \
 			--config /etc/mongod.conf \
 			--logpath /var/log/mongodb/mongod.log \
-			--notablescan \
 			--shardsvr # port 27018
 
 	docker run -P -d \
@@ -53,7 +52,6 @@ for (( i = 1; i < 3; i++ )); do
 		mongod --replSet set${i} \
 			--config /etc/mongod.conf \
 			--logpath /var/log/mongodb/mongod.log \
-			--notablescan \
 			--shardsvr # port 27018
 
 	sleep $SLEEPTIME # Wait for mongodb to start
@@ -71,9 +69,12 @@ for (( i = 1; i < 3; i++ )); do
 		shard${i}node1 \
 		mongo --port 27018 \
 			--eval "printjson(rs.add('shard${i}node2.mongodb.dev.docker:27018')); \
-				cfg = rs.conf(); \
+				printjson(cfg = rs.conf()); \
 				cfg.members[0].host = 'shard${i}node1.mongodb.dev.docker:27018'; \
-				printjson(rs.reconfig(cfg));"
+				cfg.members[1].host = 'shard${i}node2.mongodb.dev.docker:27018'; \
+				printjson(rs.reconfig(cfg)); \
+				print('Final replica set config');
+				printjson(cfg = rs.conf());"
 done
 
 echo "Create configserver"
@@ -86,7 +87,6 @@ docker run -P -d \
 	${IMAGE}:${TAG} \
 	mongod --config /etc/mongoc.conf \
 			--logpath /var/log/mongodb/mongoc.log \
-		--notablescan \
 		--configsvr # port 27019
 
 echo "Setup and configure mongo query router"
@@ -112,6 +112,10 @@ docker exec -it \
 				printjson(sh.addShard('set2/shard2node1.mongodb.dev.docker:27018'));"
 
 sleep $SLEEPTIME # Wait for shards to register with the query router
+
+docker exec -it \
+		mongos1 \
+		mongoimport '/provision/data/emp.json'
 
 docker exec -it \
 		mongos1 \
