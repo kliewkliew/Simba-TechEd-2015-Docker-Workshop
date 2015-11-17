@@ -69,11 +69,10 @@ for (( i = 1; i < 3; i++ )); do
 		shard${i}node1 \
 		mongo --port 27018 \
 			--eval "printjson(rs.add('shard${i}node2.mongodb.dev.docker:27018')); \
-				printjson(cfg = rs.conf()); \
+				cfg = rs.conf(); \
 				cfg.members[0].host = 'shard${i}node1.mongodb.dev.docker:27018'; \
 				cfg.members[1].host = 'shard${i}node2.mongodb.dev.docker:27018'; \
 				printjson(rs.reconfig(cfg)); \
-				print('Final replica set config');
 				printjson(cfg = rs.conf());"
 done
 
@@ -108,22 +107,26 @@ sleep $SLEEPTIME # Wait for mongos to start
 docker exec -it \
 		mongos1 \
 		mongo \
-			--eval "printjson(sh.addShard('set1/shard1node1.mongodb.dev.docker:27018')); \
+			--eval "print('Add shards'); \
+				printjson(sh.addShard('set1/shard1node1.mongodb.dev.docker:27018')); \
 				printjson(sh.addShard('set2/shard2node1.mongodb.dev.docker:27018'));"
 
 sleep $SLEEPTIME # Wait for shards to register with the query router
 
 docker exec -it \
 		mongos1 \
-		mongoimport '/provision/data/emp.json'
-
-docker exec -it \
-		mongos1 \
 		mongo \
-			--eval "db = db.getSiblingDB('admin');
-				printjson(db.runCommand( { enableSharding : 'test' } )); \
-				printjson(db.emp.createIndex({_id: 'hashed'}, {background: false})); \
-				printjson(sh.shardCollection( 'test.emp', { _id: 'hashed' } ));"
+			--eval "print('Shard GearInn database collections'); \
+				db = db.getSiblingDB('admin'); \
+				printjson(db.runCommand( { enableSharding : 'GearInn' } )); \
+				db = db.getSiblingDB('GearInn'); \
+				printjson(db.activity.ensureIndex({_id: 'hashed'}, {background: false})); \
+				printjson(sh.shardCollection( 'GearInn.activity', { _id: 'hashed' } )); \
+				printjson(db.bike.ensureIndex({_id: 'hashed'}, {background: false})); \
+				printjson(sh.shardCollection( 'GearInn.bike', { _id: 'hashed' } )); \
+				printjson(db.user.ensureIndex({_id: 'hashed'}, {background: false})); \
+				printjson(sh.shardCollection( 'GearInn.user', { _id: 'hashed' } ));"
+
 
 sleep $SLEEPTIME # Wait sharding to be enabled
 
