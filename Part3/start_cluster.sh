@@ -3,29 +3,22 @@
 # Persistent storage of container database files on the host
 LOCALPATH="/mongodb"
 
-SLEEPTIME=60
+SLEEPTIME=30
 
 # If you change this, you also need to modify provision/js/addShard.js, provision/js/setupReplicaSet#.js
 IMAGE="mongodb"
 TAG="3.0.5"
 
-SKYDNS="172.17.42.1"
+SKYDNS="172.17.0.1"
 
 echo "Clean up"
 
-containers=( skydns skydock shard1node1 shard1node2 shard2node1 shard2node2 configserver1 mongos1 )
+containers=( shard1node1 shard1node2 shard2node1 shard2node2 configserver1 mongos1 )
 for c in ${containers[@]};
 do
 	docker kill ${c} 	> /dev/null 2>&1
 	docker rm ${c} 		> /dev/null 2>&1
 done
-
-
-echo "Setup skydns/skydock"
-
-docker run -d -p 172.17.42.1:53:53/udp --name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain docker
-docker run -d -v /var/run/docker.sock:/docker.sock --name skydock crosbymichael/skydock -ttl 30 -environment dev -s /docker.sock -domain docker -name skydns
-
 
 
 for (( i = 1; i < 3; i++ )); do
@@ -34,8 +27,7 @@ for (( i = 1; i < 3; i++ )); do
 
 	docker run -P -d \
 			--name shard${i}node1 \
-			--dns 172.17.42.1 \
-			--net bridge \
+			--dns $SKYDNS \
 			-v /var/log/$IMAGE-$TAG/shard${i}node1:/var/log/mongodb/ \
 		${IMAGE}:${TAG} \
 		mongod --replSet set${i} \
@@ -45,8 +37,7 @@ for (( i = 1; i < 3; i++ )); do
 
 	docker run -P -d \
 			--name shard${i}node2 \
-			--dns 172.17.42.1 \
-			--net bridge \
+			--dns $SKYDNS \
 			-v /var/log/$IMAGE-$TAG/shard${i}node1:/var/log/mongodb/ \
 		${IMAGE}:${TAG} \
 		mongod --replSet set${i} \
@@ -80,8 +71,7 @@ echo "Create configserver"
 
 docker run -P -d \
 		--name configserver1 \
-		--dns 172.17.42.1 \
-		--net bridge \
+		--dns $SKYDNS \
 			-v /var/log/$IMAGE-$TAG/configserver1:/var/log/mongodb/ \
 	${IMAGE}:${TAG} \
 	mongod --config /etc/mongoc.conf \
@@ -94,8 +84,7 @@ sleep $SLEEPTIME # Wait for configserver1 to start
 
 docker run -p 27017:27017 -d \
 			--name mongos1 \
-			--dns 172.17.42.1 \
-			--net bridge \
+			--dns $SKYDNS \
 			-v /var/log/$IMAGE-$TAG/mongos1:/var/log/mongodb/ \
 		${IMAGE}:${TAG} \
 		mongos --configdb configserver1.${IMAGE}.dev.docker:27019 \
