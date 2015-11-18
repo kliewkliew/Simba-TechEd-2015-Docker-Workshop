@@ -1,0 +1,50 @@
+<ion-side-menus enable-menu-with-back-views="false" delegate-handle="main-side-menu">
+  <ion-side-menu-content>
+
+    <ion-nav-bar class="bar-royal-900">
+      <ion-nav-back-button></ion-nav-back-button>
+      <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-navicon" ng-hide="$exposeAside.active" menu-toggle="right">
+        </button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-nav-view name="menuContent"></ion-nav-view>
+
+  </ion-side-menu-content>
+
+  <ion-side-menu side="right" ng-controller="SideMenuCtrl">
+
+    <ion-content style="background-color: #311B92; top: 0px;" has-bouncing="false">
+
+      <div class="sm-profile-section" ng-click="profile()">
+        <div style="width: 100%; height: 70%;">
+          <div class="sm-profile-avatar" ng-style="{'background-image': 'url('+user.avatar+')'}"></div>
+        </div>
+        <div class="sm-profile-full-name">{{user.name}}</div>
+      </div>
+
+      <div>
+        <!-- <ion-item menu-close ng-click="home()" class="item-side-menu item-royal-900 item-icon-left"  style="color:white;">
+          <i class="icon ion-home"></i> 首页 </ion-item> -->
+        <!-- <ion-item menu-close ng-click="myAccount()" class="item-side-menu item-dark item-icon-left">
+          <i class="icon ion-map"></i> 我的帐号 </ion-item> -->
+        <!-- <ion-item ng-click="showModal('PostActivity')" class="item-side-menu item-royal-900 item-icon-left"  style="color:white;">
+          <i class="icon ion-flag"></i> 发布活动 </ion-item>
+        <ion-item ng-click="showModal('PostBike')" class="item-side-menu item-royal-900 item-icon-left"  style="color:white;">
+          <i class="icon ion-android-star"></i> 发布单车 </ion-item> -->
+        <ion-item ng-click="showModal('Settings')" class="item-side-menu item-royal-900 item-icon-left"  style="color:white;">
+          <i class="icon ion-gear-b"></i> {{'SETTINGS' | translate}} </ion-item>
+        <ion-item ng-click="showModal('About')" class="item-side-menu item-royal-900 item-icon-left"  style="color:white;">
+          <i class="icon ion-help-circled"></i> {{'ABOUT'| translate}} </ion-item>
+      </div>
+
+    </ion-content>
+    <ion-footer-bar menu-close class="bar-assertive" ng-click="LogOut()">
+        <button class="button icon-left ion-log-out button-clear btn-log-out"> </button>
+        {{'LOGOUT' | translate}}
+    </ion-footer-bar>
+
+  </ion-side-menu>
+
+</ion-side-menus>

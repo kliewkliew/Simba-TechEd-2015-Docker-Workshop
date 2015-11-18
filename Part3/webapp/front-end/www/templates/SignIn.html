@@ -1,0 +1,12 @@
+<ion-view title="{{'LOGIN' | translate}}" class="intro-back">
+  <ion-content scroll="false">
+  	<div class="list">
+      <ion-md-input placeholder="{{'EMAIL' | translate}}" highlight-color="royal"  type="email" ng-model="userCred.email" ></ion-md-input>
+      <ion-md-input placeholder="{{'PASSWORD' | translate}}" highlight-color="royal" type="password" ng-model="userCred.pwd"></ion-md-input>
+  	</div>
+  	<div style="padding: 0% 5%;">
+  		<button class="button icon-left button-block button-royal" style="font-size: 1.4em; font-weight: bold;" ng-click="SignIn()" translate>LOGIN</button>
+  	</div> <br/>
+  	<div class="alink" ng-click="SignUp()" style="color: black;" translate>NOACCOUNT</div>
+  </ion-content>
+</ion-view>

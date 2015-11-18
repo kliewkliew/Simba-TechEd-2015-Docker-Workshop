@@ -1,0 +1,190 @@
+/*
+To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+For example, you might change some of the default colors:
+
+$light:                           #fff !default;
+$stable:                          #f8f8f8 !default;
+$positive:                        #387ef5 !default;
+$calm:                            #11c1f3 !default;
+$balanced:                        #33cd5f !default;
+$energized:                       #ffc900 !default;
+$assertive:                       #ef473a !default;
+$royal:                           #886aea !default;
+$dark:                            #444 !default;
+*/
+
+$balanced:                        #32BD5A !default;
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+
+// Include all of Ionic
+@import "www/lib/ionic/scss/ionic";
+
+
+/* List items with option button shouldn't be focused... filling them with white */
+
+.item-content.active,
+.item-content.active .item-content{
+	background-color: white !important;
+}
+
+.item-side-menu .item-content.activated{
+	opacity: .5;
+	background-color: #262626;
+}
+
+.item.activated{
+	opacity: .5;
+	background-color: transparent;
+}
+
+/* Header bars shouldn't have bottom line in order to keep accordance with top tab bar */
+
+body{
+	color: white;
+}
+
+.bar-header {
+	border: none;
+}
+
+/* Enhance stable header bottom */
+.bar.bar-stable {
+	border-color: #ddd;
+	border-width: 1px;
+	border-style: solid;
+	color: #444;
+}
+
+/* Transparent bar */
+
+.bar-transparent {
+	background-color: transparent;
+	padding: 5px 13% !important;
+	top: 0px !important;
+	position: relative;
+}
+
+.bar.bar-subheader.bar-transparent{
+	border-bottom: none !important;
+}
+
+/* Do not truncate header title */
+
+.bar .title {
+	overflow: visible;
+	font-size: 1.6em;
+}
+
+/* Enhance padding */
+
+.padding {
+	padding: 5%;
+}
+
+/* Default black for scroll views */
+
+.scroll-content{
+	color: black;
+}
+
+/* Add drop-shadow to android side content */
+
+.grade-b .menu-content, .grade-c .menu-content {
+	border-left: none;
+	box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.2), 1px 0px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Add item-icon-relative */
+
+.item-icon-relative .icon{
+	position: relative;
+	min-width: 23px;
+	left: 0px;
+}
+
+.item-icon-relative input{
+	padding-right: 35px !important;
+}
+
+/* Good size for card */
+
+.card {
+	margin: 7% 5%;
+}
+
+.card .item.item-input input {
+	padding-right: 30px;
+}
+
+/* Scroll bar indicator */
+
+.scroll-bar-indicator {
+	background: rgba(0, 0, 0, 0.21);
+}
+
+/* Smooth button */
+
+.btn-smooth{
+	-webkit-transition: all .2s linear;
+	transition: all .2s linear;
+}
+
+/* Slider pager fix */
+
+.slider-pager {
+	bottom: 6%;
+}
+
+/* ActionSheet changes */
+
+.platform-android .action-sheet .button {
+	color: white;
+	padding-left: 5%;
+}
+
+.action-sheet .button.activated {
+  	background: #666 !important;
+}
+
+.platform-android .action-sheet-group {
+	background-color: $dark;
+}
+
+.action-sheet .button.activated {
+	background: #DDD !important;
+}
+
+/* slide-in-right */
+
+.slide-in-right {
+  -webkit-transform: translateX(100%);
+    transform: translateX(100%); }
+
+.slide-in-right.ng-enter, .slide-in-right > .ng-enter {
+  -webkit-transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms;
+  transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms; }
+
+.slide-in-right.ng-enter-active, .slide-in-right > .ng-enter-active {
+  -webkit-transform: translateX(0);
+    transform: translateX(0); }
+
+.slide-in-right.ng-leave, .slide-in-right > .ng-leave {
+  -webkit-transition: all ease-in-out 250ms;
+  transition: all ease-in-out 250ms; }
+
+/* full screen modal */
+
+@media (min-width: 680px) {
+  .modal {
+	  top: 0%;
+	  right: 0%;
+	  bottom: 0%;
+	  left: 0%;
+	  min-height: 100%;
+	  width: 100%;
+  }
+}

@@ -1,0 +1,14 @@
+<ion-view title="{{'MSG'|translate}}">
+	<ion-content class="padding">
+		<div class="content">
+				<div ng-repeat="message in messages " class="list" ng-click="MessageDetail(message._id)">
+						<a class="item item-avatar item-icon-right">
+								<img src={{message.avatar}}>
+								<h2>{{message.name}}</h2>
+								<p>{{message.detail}}</p>
+								<i class="icon ion-chatbubble muted"></i>
+						</a>
+				</div>
+			</div>
+	</ion-content>
+</ion-view>

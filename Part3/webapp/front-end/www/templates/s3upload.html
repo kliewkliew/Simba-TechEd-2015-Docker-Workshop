@@ -1,0 +1,48 @@
+<ion-modal-view ng-controller="FileUploadCtrl" title="S3 Uploader">
+    <ion-header-bar class="bar-royal-900">
+        <div class="buttons">
+            <button class="button button-clear header-item btn-cus-back" ng-click="closeModal()">
+                <i ng-class="getBackIcon()"></i>
+                <!-- <span class="back-text">
+                    <span class="default-title">返回</span>
+                </span> -->
+            </button>
+        </div>
+        <h1 class="title" style="color:white;" translate>S3 Upload</h1>
+    </ion-header-bar>
+    <ion-content class="padding" delegate-handle="id-scl-pa" has-bouncing="false">
+        <form name="form">
+
+            <div class="button drop-box" ngf-drop ng-model="files" accept="acceptSelect" ngf-max-size="10MB"
+              ngf-pattern="pattern" ngf-multiple="multiple" ng-disabled="disabled" ngf-capture="capture"
+              ngf-drag-over-class="dragOverClass" ngf-validate="validate" ngf-keep="keep"
+              ngf-allow-dir="allowDir" ngf-drop-available="dropAvailable"
+              ngf-select="uploadFiles($files)">Upload on file select</div>
+              {{files}}
+            <div class="col-sm-12" style="height: 30px;" ng-if="files" ng-repeat="file in files track by $index" >
+              <uib-progressbar value="file.progress" type="{{file.bartype}}">{{file.progress}}%</uib-progressbar>
+            </div>
+            <div id="image-output" class="row" ng-show="files">
+            	<div class="col-sm-5">
+              		<!-- thumbnails of browsed images -->
+              		<div id="browsed-images" class="photo-upload-wrapper" ng-repeat="file in files track by $index">
+              			<span><img ngf-src="!file.$error && file"></span>
+                	</div>
+              </div>
+            	<div class="col-sm-7">
+            		<div id="image-viewer" class="photo-upload-editor">
+            			<span class="editor-actions">
+            				<span id="make-primary" class="btn btn-default btn-make-primary">Make Primary</span>
+            				<span id="primary" class="btn btn-success btn-disable btn-make-primary"><i class="fa fa-check"></i>Primary</span>
+            				<span id="rotate" class="btn btn-circle-sm btn-default btn-rotate mar-left"><i class="fa fa-repeat"></i></span>
+            				<span id="trash" class="btn btn-circle-sm btn-default btn-delete"><i class="fa fa-trash"></i></span>
+            			</span>
+            		</div>
+            	</div>
+            </div>
+            <button class="button button-royal button-block rb-button" ng-click="submit()">
+                {{'SUBMIT'|translate}}
+            </button>
+        </form>
+    </ion-content>
+</ion-modal-view>

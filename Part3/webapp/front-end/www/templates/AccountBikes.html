@@ -1,0 +1,13 @@
+<ion-view title="我的单车">
+  <ion-content>
+	<div class="padding" style="margin-top: 1em;">
+		<ion-item ng-repeat="bike in BIKE.my_bikes track by $index" ng-click="onTapBike($index)" class="b-bike">
+			<div class="b-bike-picture" ng-style="{'background-image': 'url('+bike.picture+')'}"></div>
+			<div class="b-bike-name">{{bike.name}}</div>
+			<div class="b-bike-location">{{bike.location}}</div>
+			<div class="b-bike-period">{{bike.period}}</div>
+		</ion-item>
+	</div>
+
+  </ion-content>
+</ion-view>

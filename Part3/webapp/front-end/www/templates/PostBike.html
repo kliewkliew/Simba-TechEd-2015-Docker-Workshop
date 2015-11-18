@@ -1,0 +1,72 @@
+<ion-modal-view title="{{'PBIKE' | translate}}" ng-controller="PostBikeCtrl">
+
+	<ion-header-bar class="bar-royal-900">
+		<div class="buttons">
+		  <button ng-click="closeModal()" class="button button-clear header-item btn-cus-back">
+		      <i ng-class="getBackIcon()"></i>
+		      <!-- <span class="back-text">
+		      	<span class="default-title">返回</span>
+		      </span> -->
+		  </button>
+		</div>
+		<h1 class="title" style="color:white;" translate>PBIKE</h1>
+	</ion-header-bar>
+
+	<ion-content class="padding" delegate-handle="id-scl-pb" has-bouncing="false">
+		<div class="list" style="margin-top: 0px;">
+			<label class="item item-input item-floating-label">
+				<span class="input-label royal" translate>TITLE1</span>
+				<input type="text" ng-model="bike.title" placeholder="{{'TITLE1' | translate}}">
+			</label>
+			<label class="item item-input item-floating-label">
+				<span class="input-label royal" translate>BRAND</span>
+				<input type="text" ng-model="bike.brand" placeholder="{{'BRAND' | translate}}">
+			</label>
+			<label class="item item-input item-floating-label">
+				<span class="input-label royal" translate>MODEL</span>
+				<input type="text" ng-model="bike.model" placeholder="{{'MODEL' | translate}}">
+			</label>
+			<label class="item item-input item-floating-label">
+				<span class="input-label royal" translate>YEAR</span>
+				<input type="number" ng-model="bike.purchase_year" placeholder="{{'YEAR' | translate}}">
+			</label>
+			<label class="item item-input item-floating-label">
+				<span class="input-label royal" translate>PHONE</span>
+				<input type="tel" ng-model="bike.phone" placeholder="{{'PHONE' | translate}}">
+			</label>
+			<label class="item item-input item-floating-label">
+				<span class="input-label royal" translate>EMAIL</span>
+				<input type="email" ng-model="bike.email" placeholder="{{'EMAIL' | translate}}">
+			</label>
+			<label class="item item-input item-floating-label">
+				<span class="input-label royal" translate>CONTACT</span>
+				<input type="text" ng-model="bike.contact" placeholder="{{'CONTACT' | translate}}">
+			</label>
+			<!-- <label class="item item-input item-select">
+			<label class="item item-input item-floating-label">
+				<span class="input-label">取车地点</span>
+				<input type="text" ng-model="bike.pick_location" placeholder="">
+			</label>
+			<label class="item item-input item-floating-label">
+				<span class="input-label">还车地点</span>
+				<input type="text" ng-model="bike.return_location" placeholder="">
+			</label> -->
+			<label class="item">
+				<div style="margin-bottom: .5em; margin-top: .5em;">
+					<span class="royal" translate>DESCRIPTION</span>
+				</div>
+				<textarea style="width: 100%; border: 1px solid lightgray; max-width: 100%;" rows="5" ng-model="bike.description"></textarea>
+			</label>
+			<div class="item">
+				<div style="margin-bottom: .5em;">
+					<span class="royal" translate>ADDPHOTO</span>
+				</div>
+				<div class="pb-photo" ng-style="{'background-image': 'url('+bike.photo+')'}" ng-click="onPickPhoto()">
+				</div>
+			</div>
+		</div>
+		<button class="button button-royal button-block rb-button" ng-click="submit()">
+			{{'SUBMIT'|translate}}
+		</button>
+	</ion-content>
+</ion-modal-view>

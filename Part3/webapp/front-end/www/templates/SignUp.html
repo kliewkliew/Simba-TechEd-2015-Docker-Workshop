@@ -1,0 +1,61 @@
+<ion-view title="{{'SIGNUP' | translate}}">
+    <!--   <ion-nav-bar class="bar-dark">
+    	<ion-nav-back-button ng-click="back()">
+    	</ion-nav-back-button>
+      </ion-nav-bar>
+     -->
+    <ion-content scroll="false">
+        <div class="card">
+            <label class="item item-input item-icon-left">
+                <span class="input-label">{{'EMAIL'|translate}} *</span>
+                <input ng-model="user.email" placeholder="" type="email">
+            </label>
+            <label class="item item-input item-icon-left">
+                <span class="input-label">{{'PASSWORD'|translate}} *</span>
+                <input ng-model="user.password" placeholder="" type="password">
+            </label>
+            <label class="item item-input item-icon-left">
+                <span class="input-label">{{'CPWD'|translate}} *</span>
+                <input ng-model="user.confirm_password" placeholder="" type="password">
+            </label>
+            <label class="item item-input item-icon-left">
+                <span class="input-label">{{'NAME'|translate}} *</span>
+                <input ng-model="user.name" placeholder="" type="text">
+            </label>
+            <!-- <label class="item item-input item-icon-left">
+                <span class="input-label">生日</span>
+                <input ng-model="user.dob" type="date">
+            </label> -->
+            <!-- <label class="item item-input item-select">
+                <div class="input-label"> 性别 </div>
+                <select ng-model="user.gender">
+                    <option selected>男</option>
+                    <option>女</option>
+                </select>
+            </label>
+            <label class="item item-input item-select">
+                <div class="input-label"> 学院 </div>
+                <select ng-model="user.school">
+                    <option selected>管理学院</option>
+                    <option selected>生命学院</option>
+                    <option selected>材料学院</option>
+                    <option selected>机械学院</option>
+                    <option selected>计算机学院</option>
+                </select>
+            </label>
+            <label class="item item-input item-select">
+                <div class="input-label"> 年级 </div>
+                <select ng-model="user.grade">
+                    <option selected>2014</option>
+                    <option selected>2015</option>
+                    <option selected>2016</option>
+                    <option selected>2017</option>
+                </select>
+            </label> -->
+        </div>
+        <div style="padding: 0% 5%;">
+            <button class="button icon-left button-block button-royal" ng-click="SignUp()"
+                style="font-size: 1.4em; font-weight: bold;" translate>SIGNUP</button>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,85 @@
+<ion-view title="{{activity.title}}">
+    <ion-content class="padding">
+        <ion-refresher on-refresh="onRefresh()" pulling-text="Pull to refresh activities..."></ion-refresher>
+        <div class="list list-inset">
+            <div class="item">
+               <div class="ad-key" translate>DATE</div>
+               <div class="ad-value">{{activity.start_date | moment: 'format': 'YYYY-MM-DD'}} </div>
+            </div>
+            <div class="item"/>
+               <div class="ad-key" translate>STARTT</div>
+               <div class="ad-value">{{activity.start_date | moment: 'format': 'LT'}} </div>
+            </div>
+            <div class="item">
+                <div class="ad-key" translate>STARTL</div>
+                <div class="ad-value">{{activity.start_location || '&nbsp;'}} </div>
+            </div>
+            <div class="item">
+                <div class="ad-key" translate>ENDL</div>
+                <div class="ad-value">{{activity.end_location || '&nbsp;'}} </div>
+            </div>
+            <div class="item">
+                <div class="ad-key" translate>SPEED</div>
+                <div class="ad-value">{{activity.pace || '&nbsp;'}}
+                    <span> km/h </span>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ad-key" translate>DISTANCE</div>
+                <div class="ad-value">{{activity.distance || '&nbsp;'}}
+                    <span> km </span>
+                </div>
+            </div>
+            <!-- <div class="item">
+                <div class="ad-key">集合时间: </div>
+                <div class="ad-value">{{activity.meetup_time | moment_time}}</div>
+            </div> -->
+            <!-- <div class="item">
+                <div class="ad-key">集合地点: </div>
+                <div class="ad-value">{{activity.meetup_location || '&nbsp;'}}</div>
+            </div> -->
+            <div class="item">
+                <div class="ad-key" translate>SIZE</div>
+                <div class="ad-value">{{activity.size || '&nbsp;'}}</div>
+            </div>
+        </div>
+        <div style="max-height: 20em; min-height: 20em;" id="map" data-tap-disabled="true"></div>
+        <div class="detail-item" style="max-height: 9.4em; min-height: 9.4em;">
+            <div class="ad-remaining">{{activity.size - activity.attendees.length}} {{'LEFTSEATS'|translate}}</div>
+            <button class="button button-outline button-block button-balanced ion-heart icon-left btn-smooth" style="font-weight: bold;" ng-click="onJoin()" ng-show="!joined" translate>
+                ATTEND
+            </button>
+            <button class="button button-outline button-block button-assertive ion-heart icon-left btn-smooth" style="font-weight: bold;" ng-click="onNotJoin()" ng-show="joined" translate>
+                NOTATTEND
+            </button>
+        </div>
+        <div class="detail-item" style="max-height: 8.4em; min-height: 8.4em;">
+            <button class="button button-outline button-block button-balanced icon-left btn-smooth" style="font-weight: bold;" ng-click="onBikes()">
+                {{'NBIKE'|translate}}
+            </button>
+        </div>
+        <div class="detail-item" ng-click="onTapDesc()">
+            <div class="ad-full-key">
+                {{'DESCRIPTION'|translate}}
+                <!-- 		<i class="icon" ng-class="trimDesc?'ion-chevron-down':'ion-chevron-up'" style="float: right; zoom: 1.5;"></i> -->
+            </div>
+            <div class="ad-desc" ng-class="{ 'ad\-trimmed\-desc': trimDesc }">
+                {{activity.description}}
+            </div>
+        </div>
+        <div class="detail-item" style="border-bottom: none;">
+			      <div class="ad-full-key" style="padding-bottom: 1em;">{{attendees.length}} {{'ATTENDEES' | translate}}</div>
+			      <ion-item ng-repeat="attendee in attendees track by $index" ng-click="onProfile($index)" class="item-profile">
+				       <div class="ad-profile-avatar" ng-style="{'background-image': 'url('+attendee.avatar+')'}"></div>
+				       <div class="ad-profile-name">{{attendee.name}}</div>
+				       <div class="ad-profile-desc ad-trimmed-desc">{{attendee.college_name}}</div>
+			      </ion-item>
+		    </div>
+        <button class="button button-balanced button-block" ng-click="edit()" ng-show="user.is_admin" translate>
+             EDIT
+        </button>
+        <button class="button button-assertive button-block" ng-click="confirmDelete()" ng-show="user.is_admin" translate>
+             DELETE
+        </button>
+    </ion-content>
+</ion-view>

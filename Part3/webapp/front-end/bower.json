@@ -1,0 +1,28 @@
+{
+  "name": "GearINN",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.0.0-rc.5",
+    "jquery": "2.1.3",
+    "ionic-service-core": "~0.1.10",
+    "ionic-service-push": "~0.1.13"
+  },
+  "dependencies": {
+    "angular-moment": "~0.10.1",
+    "angular-translate": "~2.8.1",
+    "angular-translate-loader-partial": "~2.8.1",
+    "ion-md-input": "~1.0.4",
+    "ionic-datepicker": "~0.9.0",
+    "ionic-material": "~0.4.2",
+    "ionic-material-design-lite": "~0.5.5",
+    "ionic-timepicker": "~0.3.0",
+    "ngCordova": "~0.1.20-alpha",
+    "ng-file-upload": "~9.0.15",
+    "angular-bootstrap": "~0.14.2",
+    "ngAutocomplete": "~1.0.0"
+  },
+  "resolutions": {
+    "angular": "1.3.13",
+    "ionic": "1.0.0-rc.5"
+  }
+}

@@ -1,0 +1,66 @@
+<ion-view title="{{'TITLE' | translate}}">
+	<ion-content class="padding">
+
+	<!--	<div class="detail-item">
+ 			<div class="ad-title">
+				{{BIKE.curBike.name}}
+			</div>
+			<div>
+				<div class="ad-key">取车地点: </div>
+				<div class="ad-value">{{BIKE.curBike.pick_location}}</div>
+			</div>
+			<div>
+				<div class="ad-key">还车地点: </div>
+				<div class="ad-value">{{BIKE.curBike.return_location}}</div>
+			</div>
+		</div>-->
+
+		<div class="detail-item">
+			<div>
+				<div class="ad-full-key royal" translate>ADATES</div>
+				<ul class="rb-available-dates">
+					<li ng-repeat="dates in available_dates">
+						{{dates}}
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="list">
+			<label class="item item-input item-icon-left">
+			  	<span class="input-label royal" translate>SDATE</span>
+					<ionic-datepicker input-obj="datepickerStart">
+								<button class="button button-block button-royal">
+									{{datepickerStart.inputDate | date:'dd - MMMM'}}
+								</button>
+				  </ionic-datepicker>
+			</label>
+			<label class="item item-input item-icon-left">
+			   <span class="input-label royal" translate>EDATE</span>
+				 <ionic-datepicker input-obj="datepickerEnd">
+				    		<button  class="button button-block button-royal">
+									{{ datepickerEnd.inputDate | date:'dd - MMMM' }}
+						   </button>
+				 </ionic-datepicker>
+			</label>
+		</div>
+
+		<!-- <div class="row">
+			<div class="col">
+				<button class="button button-assertive button-block icon-left ion-close" ng-click="onCancel()">
+					取消
+				</button>
+			</div>
+			<div class="col">
+				<button class="button button-balanced button-block icon-left ion-checkmark" ng-click="onReserve()">
+					确定
+				</button>
+			</div>
+		</div> -->
+
+
+	</ion-content>
+	<div class="bar bar-footer bar-royal" ng-click="onReserve()">
+	  	<div class="title" translate>CONFIRM</div>
+	</div>
+</ion-view>

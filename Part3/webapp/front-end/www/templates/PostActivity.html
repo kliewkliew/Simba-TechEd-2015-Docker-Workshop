@@ -1,0 +1,97 @@
+<ion-modal-view title="{{'PACTIVITY' | translate}}" ng-controller="PostActivityCtrl">
+    <ion-header-bar class="bar-royal-900">
+        <div class="buttons">
+            <button class="button button-clear header-item btn-cus-back"
+                ng-click="closeModal()">
+                <i ng-class="getBackIcon()"></i>
+                <!-- <span class="back-text">
+                    <span class="default-title">返回</span>
+                </span> -->
+            </button>
+        </div>
+        <h1 class="title" style="color:white;" translate>PACTIVITY</h1>
+    </ion-header-bar>
+    <ion-content class="padding" delegate-handle="id-scl-pa" has-bouncing="false" data-tap-disabled="true">
+        <div class="list" style="margin-top: 0px;">
+            <label class="item item-input item-floating-label">
+                <span class="input-label royal" translate>TITLE1</span>
+                <input ng-model="activity.title" placeholder="{{'TITLE1' | translate}}" type="text">
+            </label>
+            <label class="item item-input item-icon-left">
+                <span class="input-label royal" translate>DATE</span>
+                <!-- <ionic-datepicker disablepreviousdates="true" idate="activity.start_date">
+                    <button class="button button-royal">
+                        {{ activity.start_date | date:'dd - MMMM' }}
+                    </button>
+                </ionic-datepicker> -->
+                <ionic-datepicker input-obj="datepickerObjectPopup">
+                  <button class="button button-block button-royal"> {{datepickerObjectPopup.inputDate | date:'dd - MMMM'}}</button>
+                </ionic-datepicker>
+            </label>
+            <!-- <label class="item item-input item-icon-left">
+                <span class="input-label royal">出发时间</span>
+                <ionic-timepicker etime="activity.start_date_slots.epochTime" input-obj="timePickerObject24Hour">
+                    <button class="button button-royal">
+                        <standard-time-no-meridian etime='timePickerObject24Hour.inputEpochTime'></standard-time-no-meridian>
+                    </button>
+                </ionic-timepicker>
+            </label> -->
+            <label class="item item-input item-icon-left">
+                <span class="input-label royal" translate>STARTT</span>
+                <ionic-timepicker etime="activity.meetup_time_slots.epochTime" input-obj="timePickerObject24Hour">
+                    <button class="button button-royal">
+                        <standard-time-no-meridian etime='timePickerObject24Hour.inputEpochTime'></standard-time-no-meridian>
+                    </button>
+                </ionic-timepicker>
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label royal" translate>STARTL</span>
+                <input id="start_location" type="text" placeholder="{{'STARTL' | translate}}" ng-autocomplete ng-model="activity.start_location" ng-focus="disableTap()" options="options" details="details"/>
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label royal" translate>ENDL</span>
+                <input id="end_location" type="text" placeholder="{{'ENDL' | translate}}" ng-autocomplete ng-model="activity.end_location" ng-focus="disableTap()" options="options" details="details"/>
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label royal">{{'DISTANCE' | translate}} (km)</span>
+                <input ng-model="activity.distance" type="number" placeholder="{{'DISTANCE' | translate}} (km)">
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label royal">{{'SPEED' | translate}} (km/h)</span>
+                <input ng-model="activity.pace" type="number" placeholder="{{'SPEED' | translate}} (km/h)">
+            </label>
+ <!--            <label class="item item-input item-floating-label">
+                <span class="input-label royal">集合地点</span>
+                <input ng-model="activity.meetup_location" type="text" placeholder="集合地点">
+            </label> -->
+            <label class="item item-input item-floating-label">
+                <span class="input-label royal" translate>SIZE</span>
+                <input ng-model="activity.size" type="number" placeholder="{{'SIZE' | translate}}">
+            </label>
+
+            <!-- <div class="item pa-item">
+                <span class="input-label">报名截止</span>
+                <ionic-datepicker disablepreviousdates="true" idate="activity.deadline">
+                    <button class="button button-positive">
+                        {{ activity.deadline | date:'dd - MMMM - yyyy' }}
+                    </button>
+                </ionic-datepicker>
+								<ionic-timepicker etime="activity.deadline_slots.epochTime" format="activity.deadline_slots.format" step="activity.deadline_slots.step">
+										<button class="button button-positive" style="margin-left: 20%;">
+                        <standard-time-meridian etime='activity.deadline_slots.epochTime'></standard-time-meridian>
+										</button>
+								</ionic-timepicker>>
+            </div> -->
+            <label class="item">
+                <div style="margin-bottom: .5em; margin-top: .5em;">
+                  <span class="royal" translate>DESCRIPTION</span>
+                </div>
+                <textarea ng-model="activity.description" rows="5"
+                    style="width: 100%; border: 1px solid lightgray; max-width: 100%; "></textarea>
+            </label>
+        </div>
+        <button class="button button-royal button-block rb-button" ng-click="submit()">
+            {{'SUBMIT'|translate}}
+        </button>
+    </ion-content>
+</ion-modal-view>

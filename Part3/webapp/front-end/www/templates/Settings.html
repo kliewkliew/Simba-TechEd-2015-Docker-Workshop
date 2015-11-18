@@ -1,0 +1,30 @@
+<ion-modal-view ng-controller="SettingsCtrl">
+    <ion-header-bar class="bar-royal-900">
+        <div class="buttons">
+            <button class="button button-clear header-item btn-cus-back" ng-click="close()">
+                <i ng-class="getBackIcon()"></i>
+          <!-- <span class="back-text">
+		      	<span class="default-title">返回</span>
+		      </span> -->
+            </button>
+        </div>
+        <h1 class="title" style="color:white;" translate>SETTINGS</h1>
+    </ion-header-bar>
+
+    <ion-content scroll="false">
+        <div class="card" style="margin-bottom: 0px;">
+            <ion-toggle ng-model="push_notification.checked" toggle-class="toggle-positive" ng-change="save()">
+                {{'NOTIFICATION'|translate}}
+            </ion-toggle>
+        </div>
+
+        <div class="card" style="margin-bottom: 0px;" on-hold="getTokens()">
+            Tokens:
+            <pre> {{tokens}} </pre>
+        </div>
+
+        <div class="card" style="margin-bottom: 0px;" ng-click="sendNotification()">
+            Send notification!!
+        </div>
+    </ion-content>
+</ion-modal-view>

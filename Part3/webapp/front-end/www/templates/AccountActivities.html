@@ -1,0 +1,17 @@
+<ion-view title="我的活动">
+    <ion-content>
+        <ion-refresher on-refresh="onRefresh()" pulling-text="Pull to refresh activities..."></ion-refresher>
+        <div ng-repeat="activity in activities track by $index" ng-class="getItemClass($index)" ng-click="onTapActivity(activity._id)">
+            <div style="min-height: 2.5em;">
+                <div class="a-date">{{activity.start_date | moment: 'format': 'YYYY-MM-DD'}}
+                    ~ {{activity.end_date | moment: 'format': 'YYYY-MM-DD'}}</div>
+            </div>
+            <div style="min-height: 1.4em;">
+                <div class="a-title">{{activity.title}}</div>
+                <div class="a-capacity">{{activity.attendees.length}}人 / {{activity.size}}人</div>
+            </div>
+            <div class="border-bottom"></div>
+        </div>
+        <ion-infinite-scroll ng-if="false" on-infinite="onInfinite()"></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

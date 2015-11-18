@@ -1,0 +1,59 @@
+<ion-view title="{{BIKE.curBike.name}}">
+	<ion-content class="padding">
+
+<!-- 		<ion-slide-box show-pager="true" style="width: 100%; margin-top: 1em; height: 13em;">
+			<ion-slide ng-repeat="url in BIKE.curBike.pictures">
+				<img ng-src="{{url}}" class="bd-slide-image"></img>
+			</ion-slide>
+		</ion-slide-box> -->
+
+		<div ng-style="{'background-image':'url('+BIKE.curBike.pictures[1]+')'}" class="bd-div-image"></div>
+
+		<div class="detail-item">
+			<div>
+				<div class="ad-key">单车品牌: </div>
+				<div class="ad-value">{{BIKE.curBike.brand}}</div>
+			</div>
+			<div>
+				<div class="ad-key">型号: </div>
+				<div class="ad-value">{{BIKE.curBike.model}}</div>
+			</div>
+			<div>
+				<div class="ad-key">购实年份: </div>
+				<div class="ad-value">{{BIKE.curBike.purchase_year}}</div>
+			</div>
+		</div>
+
+		<div class="detail-item">
+			<div>
+				<div class="ad-key">日期: </div>
+				<div class="ad-value">{{BIKE.curBike.period}}</div>
+			</div>
+			<div>
+				<div class="ad-key">取车地点: </div>
+				<div class="ad-value">{{BIKE.curBike.pick_location}}</div>
+			</div>
+			<div>
+				<div class="ad-key">还车地点: </div>
+				<div class="ad-value">{{BIKE.curBike.return_location}}</div>
+			</div>
+		</div>
+		
+		<div class="detail-item">
+			<button class="button button-balanced ion-checkmark icon-left ad-btn-join btn-smooth" style="font-weight: bold;" ng-click="onReturn()">
+			    退还
+			</button>
+		</div>
+
+		<div ng-click="onTapDesc()" class="detail-item">
+			<div class="ad-full-key">
+				描述
+<!-- 				<i class="icon" ng-class="trimDesc?'ion-chevron-down':'ion-chevron-up'" style="float: right; zoom: 1.5;"></i> -->
+			</div>
+			<div ng-class="{ 'ad\-trimmed\-desc': trimDesc }"  class="ad-desc" >
+				{{BIKE.curBike.desc}}
+			</div>
+		</div>
+
+	</ion-content>
+</ion-view>

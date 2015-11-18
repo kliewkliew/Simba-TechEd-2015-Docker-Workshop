@@ -1,0 +1,63 @@
+<ion-view title="{{bike.title}}">
+	<ion-content class="padding">
+
+<!-- 		<ion-slide-box show-pager="true" style="width: 100%; margin-top: 1em; height: 13em;">
+			<ion-slide ng-repeat="url in BIKE.curBike.pictures">
+				<img ng-src="{{url}}" class="bd-slide-image"></img>
+			</ion-slide>
+		</ion-slide-box> -->
+
+		<div class="item item-image">
+	    <img src="http://gearinn-photos.s3.amazonaws.com/{{bike.images}}">
+	  </div>
+		<div class="list list-inset">
+			<div class="item">
+				<div class="ad-key">{{'BRAND'|translate}}</div>
+				<div class="ad-value">{{bike.brand}}</div>
+			</div>
+			<div class="item">
+				<div class="ad-key">{{'MODEL'|translate}}</div>
+				<div class="ad-value">{{bike.model}}</div>
+			</div>
+			<div class="item">
+				<div class="ad-key">{{'BYEAR'|translate}}</div>
+				<div class="ad-value">{{bike.purchase_year}}</div>
+			</div>
+			<div class="item">
+				<div class="ad-key">{{'CONTACT'|translate}}</div>
+				<div class="ad-value">{{bike.contact}}</div>
+			</div>
+			<div class="item">
+				<div class="ad-key">{{'PHONE'|translate}}</div>
+				<div class="ad-value">{{bike.phone}}</div>
+			</div>
+			<div class="item">
+				<div class="ad-key">{{'EMAIL'|translate}}</div>
+				<div class="ad-value">{{bike.email}}</div>
+			</div>
+	  </div>
+		<div class="detail-item">
+			<button class="button button-outline button-block button-balanced ion-heart icon-left btn-smooth" style="font-weight: bold;" ng-click="onReserve()">
+				{{'BOOK'|translate}}
+			</button>
+		</div>
+
+		<div ng-click="onTapDesc()" class="detail-item">
+			<div class="ad-full-key">
+				{{'INTRO'|translate}}
+<!-- 				<i class="icon" ng-class="trimDesc?'ion-chevron-down':'ion-chevron-up'" style="float: right; zoom: 1.5;"></i> -->
+			</div>
+			<div ng-class="{ 'ad\-trimmed\-desc': trimDesc }"  class="ad-desc" >
+				{{bike.description}}
+			</div>
+		</div>
+
+		<button class="button button-balanced button-block" ng-click="edit()" ng-show="user.is_admin">
+				{{'EDIT'|translate}}
+		</button>
+		<button class="button button-assertive button-block" ng-click="confirmDelete()" ng-show="user.is_admin">
+				{{'DELETE'|translate}}
+		</button>
+
+	</ion-content>
+</ion-view>

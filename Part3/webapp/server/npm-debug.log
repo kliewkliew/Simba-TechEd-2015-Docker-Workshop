@@ -1,0 +1,413 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'i' ]
+2 info using npm@3.3.6
+3 info using node@v5.0.0
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly install normalizeTree
+8 silly loadCurrentTree Finishing
+9 silly loadIdealTree Starting
+10 silly install loadIdealTree
+11 silly cloneCurrentTree Starting
+12 silly install cloneCurrentTreeToIdealTree
+13 silly cloneCurrentTree Finishing
+14 silly loadShrinkwrap Starting
+15 silly install loadShrinkwrap
+16 silly loadShrinkwrap Finishing
+17 silly loadAllDepsIntoIdealTree Starting
+18 silly install loadAllDepsIntoIdealTree
+19 silly fetchNamedPackageData aws-sdk
+20 silly mapToRegistry name aws-sdk
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/aws-sdk
+24 silly fetchNamedPackageData flat
+25 silly mapToRegistry name flat
+26 silly mapToRegistry using default registry
+27 silly mapToRegistry registry https://registry.npmjs.org/
+28 silly mapToRegistry uri https://registry.npmjs.org/flat
+29 silly fetchNamedPackageData hapi
+30 silly mapToRegistry name hapi
+31 silly mapToRegistry using default registry
+32 silly mapToRegistry registry https://registry.npmjs.org/
+33 silly mapToRegistry uri https://registry.npmjs.org/hapi
+34 silly fetchNamedPackageData hapi-auth-cookie
+35 silly mapToRegistry name hapi-auth-cookie
+36 silly mapToRegistry using default registry
+37 silly mapToRegistry registry https://registry.npmjs.org/
+38 silly mapToRegistry uri https://registry.npmjs.org/hapi-auth-cookie
+39 silly fetchNamedPackageData joi
+40 silly mapToRegistry name joi
+41 silly mapToRegistry using default registry
+42 silly mapToRegistry registry https://registry.npmjs.org/
+43 silly mapToRegistry uri https://registry.npmjs.org/joi
+44 silly fetchNamedPackageData lodash
+45 silly mapToRegistry name lodash
+46 silly mapToRegistry using default registry
+47 silly mapToRegistry registry https://registry.npmjs.org/
+48 silly mapToRegistry uri https://registry.npmjs.org/lodash
+49 silly fetchNamedPackageData mailgun
+50 silly mapToRegistry name mailgun
+51 silly mapToRegistry using default registry
+52 silly mapToRegistry registry https://registry.npmjs.org/
+53 silly mapToRegistry uri https://registry.npmjs.org/mailgun
+54 silly fetchNamedPackageData moment
+55 silly mapToRegistry name moment
+56 silly mapToRegistry using default registry
+57 silly mapToRegistry registry https://registry.npmjs.org/
+58 silly mapToRegistry uri https://registry.npmjs.org/moment
+59 silly fetchNamedPackageData mongoose
+60 silly mapToRegistry name mongoose
+61 silly mapToRegistry using default registry
+62 silly mapToRegistry registry https://registry.npmjs.org/
+63 silly mapToRegistry uri https://registry.npmjs.org/mongoose
+64 silly fetchNamedPackageData passport-local-mongoose
+65 silly mapToRegistry name passport-local-mongoose
+66 silly mapToRegistry using default registry
+67 silly mapToRegistry registry https://registry.npmjs.org/
+68 silly mapToRegistry uri https://registry.npmjs.org/passport-local-mongoose
+69 verbose request uri https://registry.npmjs.org/aws-sdk
+70 verbose request no auth needed
+71 info attempt registry request try #1 at 1:56:20 AM
+72 verbose request id 8c3a0e3b814316eb
+73 http request GET https://registry.npmjs.org/aws-sdk
+74 verbose request uri https://registry.npmjs.org/flat
+75 verbose request no auth needed
+76 info attempt registry request try #1 at 1:56:20 AM
+77 http request GET https://registry.npmjs.org/flat
+78 verbose request uri https://registry.npmjs.org/hapi
+79 verbose request no auth needed
+80 info attempt registry request try #1 at 1:56:20 AM
+81 http request GET https://registry.npmjs.org/hapi
+82 verbose request uri https://registry.npmjs.org/hapi-auth-cookie
+83 verbose request no auth needed
+84 info attempt registry request try #1 at 1:56:20 AM
+85 http request GET https://registry.npmjs.org/hapi-auth-cookie
+86 verbose request uri https://registry.npmjs.org/joi
+87 verbose request no auth needed
+88 info attempt registry request try #1 at 1:56:20 AM
+89 http request GET https://registry.npmjs.org/joi
+90 verbose request uri https://registry.npmjs.org/mailgun
+91 verbose request no auth needed
+92 info attempt registry request try #1 at 1:56:20 AM
+93 http request GET https://registry.npmjs.org/mailgun
+94 verbose request uri https://registry.npmjs.org/moment
+95 verbose request no auth needed
+96 info attempt registry request try #1 at 1:56:20 AM
+97 http request GET https://registry.npmjs.org/moment
+98 verbose request uri https://registry.npmjs.org/mongoose
+99 verbose request no auth needed
+100 info attempt registry request try #1 at 1:56:20 AM
+101 http request GET https://registry.npmjs.org/mongoose
+102 verbose request uri https://registry.npmjs.org/passport-local-mongoose
+103 verbose request no auth needed
+104 info attempt registry request try #1 at 1:56:20 AM
+105 http request GET https://registry.npmjs.org/passport-local-mongoose
+106 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+107 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+108 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+109 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+110 info attempt registry request try #2 at 1:56:51 AM
+111 http request GET https://registry.npmjs.org/aws-sdk
+112 info attempt registry request try #2 at 1:56:51 AM
+113 http request GET https://registry.npmjs.org/hapi
+114 info attempt registry request try #2 at 1:56:51 AM
+115 http request GET https://registry.npmjs.org/hapi-auth-cookie
+116 info attempt registry request try #2 at 1:56:51 AM
+117 http request GET https://registry.npmjs.org/flat
+118 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+119 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+120 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+121 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+122 info attempt registry request try #2 at 1:57:11 AM
+123 http request GET https://registry.npmjs.org/mongoose
+124 info attempt registry request try #2 at 1:57:11 AM
+125 http request GET https://registry.npmjs.org/joi
+126 info attempt registry request try #2 at 1:57:11 AM
+127 http request GET https://registry.npmjs.org/mailgun
+128 info attempt registry request try #2 at 1:57:11 AM
+129 http request GET https://registry.npmjs.org/moment
+130 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+131 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+132 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+133 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+134 info attempt registry request try #2 at 1:57:31 AM
+135 http request GET https://registry.npmjs.org/passport-local-mongoose
+136 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+137 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+138 verbose request uri https://registry.npmjs.org/lodash
+139 verbose request no auth needed
+140 info attempt registry request try #1 at 1:57:41 AM
+141 verbose etag "BL7R06I1GGUCEUNHS5XF6T48W"
+142 http request GET https://registry.npmjs.org/lodash
+143 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+144 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+145 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+146 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+147 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+148 info attempt registry request try #2 at 1:58:11 AM
+149 verbose etag "BL7R06I1GGUCEUNHS5XF6T48W"
+150 http request GET https://registry.npmjs.org/lodash
+151 info attempt registry request try #3 at 1:58:21 AM
+152 http request GET https://registry.npmjs.org/aws-sdk
+153 info attempt registry request try #3 at 1:58:21 AM
+154 http request GET https://registry.npmjs.org/hapi
+155 info attempt registry request try #3 at 1:58:21 AM
+156 http request GET https://registry.npmjs.org/hapi-auth-cookie
+157 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+158 info attempt registry request try #3 at 1:58:41 AM
+159 http request GET https://registry.npmjs.org/joi
+160 info attempt registry request try #3 at 1:58:41 AM
+161 http request GET https://registry.npmjs.org/mailgun
+162 silly fetchPackageMetaData Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+162 silly fetchPackageMetaData     at errnoException (dns.js:26:10)
+162 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+162 silly fetchPackageMetaData  error for hapi@^8.4.0 { [Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443]
+162 silly fetchPackageMetaData   code: 'ENOTFOUND',
+162 silly fetchPackageMetaData   errno: 'ENOTFOUND',
+162 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+162 silly fetchPackageMetaData   hostname: 'registry.npmjs.org',
+162 silly fetchPackageMetaData   host: 'registry.npmjs.org',
+162 silly fetchPackageMetaData   port: 443 }
+163 silly fetchPackageMetaData Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+163 silly fetchPackageMetaData     at errnoException (dns.js:26:10)
+163 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+163 silly fetchPackageMetaData  error for hapi-auth-cookie@^2.2.0 { [Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443]
+163 silly fetchPackageMetaData   code: 'ENOTFOUND',
+163 silly fetchPackageMetaData   errno: 'ENOTFOUND',
+163 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+163 silly fetchPackageMetaData   hostname: 'registry.npmjs.org',
+163 silly fetchPackageMetaData   host: 'registry.npmjs.org',
+163 silly fetchPackageMetaData   port: 443 }
+164 silly fetchPackageMetaData Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+164 silly fetchPackageMetaData     at errnoException (dns.js:26:10)
+164 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+164 silly fetchPackageMetaData  error for aws-sdk@^2.1.36 { [Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443]
+164 silly fetchPackageMetaData   code: 'ENOTFOUND',
+164 silly fetchPackageMetaData   errno: 'ENOTFOUND',
+164 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+164 silly fetchPackageMetaData   hostname: 'registry.npmjs.org',
+164 silly fetchPackageMetaData   host: 'registry.npmjs.org',
+164 silly fetchPackageMetaData   port: 443 }
+165 info attempt registry request try #3 at 1:58:41 AM
+166 http request GET https://registry.npmjs.org/flat
+167 info attempt registry request try #3 at 1:58:41 AM
+168 http request GET https://registry.npmjs.org/mongoose
+169 info attempt registry request try #3 at 1:59:01 AM
+170 http request GET https://registry.npmjs.org/moment
+171 info attempt registry request try #3 at 1:59:01 AM
+172 http request GET https://registry.npmjs.org/passport-local-mongoose
+173 silly fetchPackageMetaData Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+173 silly fetchPackageMetaData     at errnoException (dns.js:26:10)
+173 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+173 silly fetchPackageMetaData  error for mailgun@^0.5.0 { [Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443]
+173 silly fetchPackageMetaData   code: 'ENOTFOUND',
+173 silly fetchPackageMetaData   errno: 'ENOTFOUND',
+173 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+173 silly fetchPackageMetaData   hostname: 'registry.npmjs.org',
+173 silly fetchPackageMetaData   host: 'registry.npmjs.org',
+173 silly fetchPackageMetaData   port: 443 }
+174 silly fetchPackageMetaData Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+174 silly fetchPackageMetaData     at errnoException (dns.js:26:10)
+174 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+174 silly fetchPackageMetaData  error for joi@^6.4.1 { [Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443]
+174 silly fetchPackageMetaData   code: 'ENOTFOUND',
+174 silly fetchPackageMetaData   errno: 'ENOTFOUND',
+174 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+174 silly fetchPackageMetaData   hostname: 'registry.npmjs.org',
+174 silly fetchPackageMetaData   host: 'registry.npmjs.org',
+174 silly fetchPackageMetaData   port: 443 }
+175 silly fetchPackageMetaData Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+175 silly fetchPackageMetaData     at errnoException (dns.js:26:10)
+175 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+175 silly fetchPackageMetaData  error for flat@^1.6.0 { [Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443]
+175 silly fetchPackageMetaData   code: 'ENOTFOUND',
+175 silly fetchPackageMetaData   errno: 'ENOTFOUND',
+175 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+175 silly fetchPackageMetaData   hostname: 'registry.npmjs.org',
+175 silly fetchPackageMetaData   host: 'registry.npmjs.org',
+175 silly fetchPackageMetaData   port: 443 }
+176 silly fetchPackageMetaData Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+176 silly fetchPackageMetaData     at errnoException (dns.js:26:10)
+176 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+176 silly fetchPackageMetaData  error for mongoose@^4.0.2 { [Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443]
+176 silly fetchPackageMetaData   code: 'ENOTFOUND',
+176 silly fetchPackageMetaData   errno: 'ENOTFOUND',
+176 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+176 silly fetchPackageMetaData   hostname: 'registry.npmjs.org',
+176 silly fetchPackageMetaData   host: 'registry.npmjs.org',
+176 silly fetchPackageMetaData   port: 443 }
+177 silly fetchPackageMetaData Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+177 silly fetchPackageMetaData     at errnoException (dns.js:26:10)
+177 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+177 silly fetchPackageMetaData  error for moment@^2.10.6 { [Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443]
+177 silly fetchPackageMetaData   code: 'ENOTFOUND',
+177 silly fetchPackageMetaData   errno: 'ENOTFOUND',
+177 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+177 silly fetchPackageMetaData   hostname: 'registry.npmjs.org',
+177 silly fetchPackageMetaData   host: 'registry.npmjs.org',
+177 silly fetchPackageMetaData   port: 443 }
+178 silly fetchPackageMetaData Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+178 silly fetchPackageMetaData     at errnoException (dns.js:26:10)
+178 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+178 silly fetchPackageMetaData  error for passport-local-mongoose@^1.0.0 { [Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443]
+178 silly fetchPackageMetaData   code: 'ENOTFOUND',
+178 silly fetchPackageMetaData   errno: 'ENOTFOUND',
+178 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+178 silly fetchPackageMetaData   hostname: 'registry.npmjs.org',
+178 silly fetchPackageMetaData   host: 'registry.npmjs.org',
+178 silly fetchPackageMetaData   port: 443 }
+179 info attempt registry request try #3 at 1:59:31 AM
+180 verbose etag "BL7R06I1GGUCEUNHS5XF6T48W"
+181 http request GET https://registry.npmjs.org/lodash
+182 silly get cb [ 304, undefined ]
+183 verbose etag https://registry.npmjs.org/lodash from cache
+184 verbose get saving lodash to /root/.npm/registry.npmjs.org/lodash/.cache.json
+185 silly resolveWithNewModule lodash@3.10.1 checking installable status
+186 silly cache add args [ 'lodash@^3.8.0', null ]
+187 verbose cache add spec lodash@^3.8.0
+188 silly cache add parsed spec Result {
+188 silly cache add   raw: 'lodash@^3.8.0',
+188 silly cache add   scope: null,
+188 silly cache add   name: 'lodash',
+188 silly cache add   rawSpec: '^3.8.0',
+188 silly cache add   spec: '>=3.8.0 <4.0.0',
+188 silly cache add   type: 'range' }
+189 silly addNamed lodash@>=3.8.0 <4.0.0
+190 verbose addNamed ">=3.8.0 <4.0.0" is a valid semver range for lodash
+191 silly addNameRange { name: 'lodash', range: '>=3.8.0 <4.0.0', hasData: false }
+192 silly mapToRegistry name lodash
+193 silly mapToRegistry using default registry
+194 silly mapToRegistry registry https://registry.npmjs.org/
+195 silly mapToRegistry uri https://registry.npmjs.org/lodash
+196 verbose addNameRange registry:https://registry.npmjs.org/lodash not in flight; fetching
+197 verbose get https://registry.npmjs.org/lodash not expired, no request
+198 silly addNameRange number 2 { name: 'lodash', range: '>=3.8.0 <4.0.0', hasData: true }
+199 silly addNameRange versions [ 'lodash',
+199 silly addNameRange   [ '0.1.0',
+199 silly addNameRange     '0.2.0',
+199 silly addNameRange     '0.2.1',
+199 silly addNameRange     '0.2.2',
+199 silly addNameRange     '0.3.0',
+199 silly addNameRange     '0.3.1',
+199 silly addNameRange     '0.3.2',
+199 silly addNameRange     '0.4.0',
+199 silly addNameRange     '0.4.1',
+199 silly addNameRange     '0.4.2',
+199 silly addNameRange     '0.5.0-rc.1',
+199 silly addNameRange     '0.5.0',
+199 silly addNameRange     '0.5.1',
+199 silly addNameRange     '0.5.2',
+199 silly addNameRange     '0.6.0',
+199 silly addNameRange     '0.6.1',
+199 silly addNameRange     '0.7.0',
+199 silly addNameRange     '0.8.0',
+199 silly addNameRange     '0.8.1',
+199 silly addNameRange     '0.8.2',
+199 silly addNameRange     '0.9.0',
+199 silly addNameRange     '0.9.1',
+199 silly addNameRange     '0.9.2',
+199 silly addNameRange     '0.10.0',
+199 silly addNameRange     '1.0.0-rc.1',
+199 silly addNameRange     '1.0.0-rc.2',
+199 silly addNameRange     '1.0.0-rc.3',
+199 silly addNameRange     '1.0.0',
+199 silly addNameRange     '1.0.1',
+199 silly addNameRange     '1.1.0',
+199 silly addNameRange     '1.1.1',
+199 silly addNameRange     '1.2.0',
+199 silly addNameRange     '1.2.1',
+199 silly addNameRange     '1.3.0',
+199 silly addNameRange     '1.3.1',
+199 silly addNameRange     '2.0.0',
+199 silly addNameRange     '2.1.0',
+199 silly addNameRange     '2.2.0',
+199 silly addNameRange     '2.2.1',
+199 silly addNameRange     '2.3.0',
+199 silly addNameRange     '2.4.0',
+199 silly addNameRange     '2.4.1',
+199 silly addNameRange     '3.0.0',
+199 silly addNameRange     '3.0.1',
+199 silly addNameRange     '3.1.0',
+199 silly addNameRange     '3.2.0',
+199 silly addNameRange     '3.3.0',
+199 silly addNameRange     '3.3.1',
+199 silly addNameRange     '3.4.0',
+199 silly addNameRange     '3.5.0',
+199 silly addNameRange     '3.6.0',
+199 silly addNameRange     '1.0.2',
+199 silly addNameRange     '3.7.0',
+199 silly addNameRange     '2.4.2',
+199 silly addNameRange     '3.8.0',
+199 silly addNameRange     '3.9.0',
+199 silly addNameRange     '3.9.1',
+199 silly addNameRange     '3.9.2',
+199 silly addNameRange     '3.9.3',
+199 silly addNameRange     '3.10.0',
+199 silly addNameRange     '3.10.1' ] ]
+200 silly addNamed lodash@3.10.1
+201 verbose addNamed "3.10.1" is a plain semver version for lodash
+202 silly mapToRegistry name lodash
+203 silly mapToRegistry using default registry
+204 silly mapToRegistry registry https://registry.npmjs.org/
+205 silly mapToRegistry uri https://registry.npmjs.org/lodash
+206 verbose addRemoteTarball https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz not in flight; adding
+207 verbose addRemoteTarball [ 'https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz',
+207 verbose addRemoteTarball   '5bf45e8e49ba4189e17d482789dfd15bd140b7b6' ]
+208 info retry fetch attempt 1 at 1:59:51 AM
+209 info attempt registry request try #1 at 1:59:51 AM
+210 http fetch GET https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+211 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+212 info attempt registry request try #2 at 2:00:21 AM
+213 http fetch GET https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+214 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+215 info attempt registry request try #3 at 2:01:41 AM
+216 http fetch GET https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+217 error fetch failed https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+218 warn retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+219 info retry fetch attempt 2 at 2:02:11 AM
+220 info attempt registry request try #1 at 2:02:11 AM
+221 http fetch GET https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+222 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+223 info attempt registry request try #2 at 2:02:41 AM
+224 http fetch GET https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+225 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+226 info attempt registry request try #3 at 2:04:01 AM
+227 http fetch GET https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+228 error fetch failed https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+229 warn retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+230 info retry fetch attempt 3 at 2:05:21 AM
+231 info attempt registry request try #1 at 2:05:21 AM
+232 http fetch GET https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+233 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+234 info attempt registry request try #2 at 2:05:51 AM
+235 http fetch GET https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+236 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+237 info attempt registry request try #3 at 2:07:11 AM
+238 http fetch GET https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+239 error fetch failed https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz
+240 silly rollbackFailedOptional Starting
+241 silly rollbackFailedOptional Finishing
+242 silly runTopLevelLifecycles Starting
+243 silly runTopLevelLifecycles Finishing
+244 silly install printInstalled
+245 verbose stack Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+245 verbose stack     at errnoException (dns.js:26:10)
+245 verbose stack     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+246 verbose cwd /root/GearInn/server
+247 error Linux 3.19.0-25-generic
+248 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "i"
+249 error node v5.0.0
+250 error npm  v3.3.6
+251 error code ENOTFOUND
+252 error errno ENOTFOUND
+253 error syscall getaddrinfo
+254 error network getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+254 error network This is most likely not a problem with npm itself
+254 error network and is related to network connectivity.
+254 error network In most cases you are behind a proxy or have bad network settings.
+254 error network
+254 error network If you are behind a proxy, please make sure that the
+254 error network 'proxy' config is set properly.  See: 'npm help config'
+255 verbose exit [ 1, true ]

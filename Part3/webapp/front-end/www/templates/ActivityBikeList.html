@@ -1,0 +1,19 @@
+<ion-view title="{{'BOOK'|translate}}">
+    <ion-content>
+        <ion-refresher on-refresh="onRefresh()" pulling-text="Pull to refresh bikes..."></ion-refresher>
+        <div ng-if="bikes.length === 0" class="a-title a-warning">
+            <!-- Nothing to see here. Please check back later. -->
+            目前还没有单车，请耐心等待。
+        </div>
+    	  <div class="padding" style="margin-top: 1em;">
+    		  <div id="id-bike-{{$index}}" ng-repeat="bike in bikes | orderBy:'-isReserved'" ng-click="onTapActivity(bike._id)" class="list">
+               <div class="card card-gallery item item-text-wrap" style="margin-bottom: 2em">
+                 <div class="ink dark-bg">
+                   <h2>{{bike.title}} <i class="icon ion-ios-checkmark-outline light" ng-show="bike.isReserved"></i></h2>
+                   <img class="full-image" ng-src="http://gearinn-photos.s3.amazonaws.com/{{bike.images}}"></a>
+                 </div>
+               </div>
+          </div>
+    	  </div>
+    </ion-content>
+</ion-view>
