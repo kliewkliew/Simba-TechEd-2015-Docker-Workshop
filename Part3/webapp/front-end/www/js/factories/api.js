@@ -2,7 +2,7 @@ angular.module('app.factories', [])
 
 .factory('$api', ['$http', '$utils', 'ConnectivityMonitor', function ($http, $utils, ConnectivityMonitor) {
 
-    var base = 'http://192.168.112.139:8080/api';
+    var base = 'http://[please replace it with the web server's ip address]:8080/api';
     var appId = 'e046db85';
     var privateKey = 'bfe536d49f0ec82ae8e2e04f325a9afcbbe9251c1c790901';
     var auth = btoa(privateKey + ':');

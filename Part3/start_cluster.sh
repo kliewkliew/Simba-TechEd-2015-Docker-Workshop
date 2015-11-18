@@ -7,7 +7,7 @@ SLEEPTIME=30
 
 # If you change this, you also need to modify provision/js/addShard.js, provision/js/setupReplicaSet#.js
 IMAGE="mongodb"
-TAG="3.0.5"
+TAG="3.0.7"
 
 SKYDNS="172.17.0.1"
 

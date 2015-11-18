@@ -10,8 +10,7 @@ module.exports = {
         url: '<dbstring>.mongolab.com:<port>',
         server: host + ':27017',
         replica: host + ':27017,' + host + ':27018,' + host + ':27019',
-        // docker: '[Please replace it with mongodb query server hostname or ip address]:27017',
-        docker: 'mongos1.mongodb.dev.docker:27017',
+        docker: '[Please replace it with mongodb query server hostname or ip address]:27017',
         database: 'GearInn',
         host: host,
         port: 27017
