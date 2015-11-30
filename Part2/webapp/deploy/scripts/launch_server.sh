@@ -13,4 +13,4 @@ echo "Launching webapp server..."
 
 SKYDNS="172.17.0.1"
 
-docker run -d -p 8080:8080 --name server -h server.webapp.dev.docker --dns=$SKYDNS -v ~/Simba-TechEd-2015-Docker-Workshop/Part3/webapp:/root/webapp webapp /etc/bootstrap.sh -d
+docker run -d -p 8080:8080 --name server -h server.webapp.dev.docker --dns=$SKYDNS -v ~/Simba-TechEd-2015-Docker-Workshop/Part2/webapp:/root/webapp webapp /etc/bootstrap.sh -d

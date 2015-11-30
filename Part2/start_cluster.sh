@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Persistent storage of container database files on the host
 LOCALPATH="/mongodb"
@@ -7,7 +7,7 @@ SLEEPTIME=30
 
 # If you change this, you also need to modify provision/js/addShard.js, provision/js/setupReplicaSet#.js
 IMAGE="mongodb"
-TAG="3.0.7"
+TAG="3.0.5"
 
 SKYDNS="172.17.0.1"
 
@@ -97,8 +97,8 @@ docker exec -it \
 		mongos1 \
 		mongo \
 			--eval "print('Add shards'); \
-				printjson(sh.addShard('set1/shard1node1.mongodb.dev.docker:27018')); \
-				printjson(sh.addShard('set2/shard2node1.mongodb.dev.docker:27018'));"
+				printjson(sh.addShard('set1/shard1node1.${IMAGE}.dev.docker:27018')); \
+				printjson(sh.addShard('set2/shard2node1.${IMAGE}.dev.docker:27018'));"
 
 sleep $SLEEPTIME # Wait for shards to register with the query router
 
