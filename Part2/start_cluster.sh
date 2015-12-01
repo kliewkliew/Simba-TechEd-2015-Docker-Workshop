@@ -5,7 +5,6 @@ LOCALPATH="/mongodb"
 
 SLEEPTIME=30
 
-# If you change this, you also need to modify provision/js/addShard.js, provision/js/setupReplicaSet#.js
 IMAGE="mongodb"
 TAG="3.0.5"
 
